@@ -1,1 +1,20 @@
-<p>aghora works!</p>
+<div class="title">
+    <h1>+ LIFE</h1>
+    <h2>Agendar hora centro de sangre Valparaiso</h2>
+</div>
+<form class="formul">
+    <mat-form-field class="example-full-width">
+        Nombre <input type="text" [(ngModel)]="nombre"/>
+        <br><br>
+        Rut <input type="text" [(ngModel)]="rut"/>
+        <br><br>
+        Telefono <input type="text" [(ngModel)]="telefono"/>
+        <br><br>
+        Correo <input type="email" [(ngModel)]="correo"/>
+        <br><br>
+    </mat-form-field>
+  
+    <mat-card-actions>
+        <button mat-raised-button color="warn" style="top:-10px ;left:210px">ENVIAR</button>
+      </mat-card-actions>
+  </form>

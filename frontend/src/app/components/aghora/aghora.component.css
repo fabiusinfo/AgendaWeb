@@ -1,0 +1,27 @@
+html{
+    margin: 0;
+    padding: 0;
+    width: 0;
+    height: 0;
+    position: relative;
+}
+
+.title{
+    position: absolute;
+    top: 10%;
+    left: 30%;
+}
+.formul{
+    border: rgb(85, 2, 2) 5px solid;
+    text-align: justify;
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+    position: absolute;
+    top: 30%;
+    left: 30%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }

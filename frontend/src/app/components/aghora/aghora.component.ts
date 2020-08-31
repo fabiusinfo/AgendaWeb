@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AghoraComponent implements OnInit {
 
+  rut:string;
+  nombre:string;
+  telefono:string;
+  correo:string;
   constructor() { }
 
   ngOnInit(): void {
