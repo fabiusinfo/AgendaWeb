@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import AgHora
+from .models import Appointment
 
-class AgHoraSerializer(serializers.ModelSerializer):
+class AppointmentSerializer(serializers.ModelSerializer):
     class Meta:
-        model=AgHora
-        fields = ['rut','nombres','apellido1','apellido2']
+        model=Appointment
+        fields = ['name', 'rut', 'phone', 'email', 'day', 'hour']

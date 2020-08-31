@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import AgHora
+from .models import Appointment
 # Register your models here.
-admin.site.register(AgHora)
+admin.site.register(Appointment)

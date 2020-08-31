@@ -22,7 +22,7 @@ from agendapi import views
 from django.conf.urls import url, include
 
 router = routers.DefaultRouter()
-router.register(r'aghora', views.AgHoraViewSet)
+router.register(r'appointment', views.AppointmentViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

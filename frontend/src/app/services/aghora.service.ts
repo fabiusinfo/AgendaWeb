@@ -12,7 +12,7 @@ export class AgHoraService {
   constructor(private http:HttpClient) { }
 
   getAllAgHora(): Observable<any>{
-    return this.http.get(this.baseurl + '/aghora/', {headers: this.httpHeaders});
+    return this.http.get(this.baseurl + '/appointment/', {headers: this.httpHeaders});
   }
 }
 
