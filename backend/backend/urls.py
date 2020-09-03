@@ -23,6 +23,7 @@ from django.conf.urls import url, include
 
 router = routers.DefaultRouter()
 router.register(r'appointment', views.AppointmentViewSet)
+router.register(r'hour', views.HourViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

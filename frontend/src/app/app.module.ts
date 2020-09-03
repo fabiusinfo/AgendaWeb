@@ -16,9 +16,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,10 +42,12 @@ import {MatSelectModule} from '@angular/material/select';
     MatNativeDateModule,
     MatCardModule,
     MatSelectModule,
+    NgxMaterialTimepickerModule,
 
 
   ],
-  providers: [AgHoraService],
+  providers: [AgHoraService,
+    {provide: MAT_DATE_LOCALE, useValue: 'es-CL'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,20 +1,57 @@
-<div class="title">
-    <h1>+ LIFE</h1>
-    <h2>Agendar hora centro de sangre Valparaiso</h2>
-</div>
-<form class="formul">
-    <mat-form-field class="example-full-width">
-        Nombre <input type="text" [(ngModel)]="nombre"/>
-        <br><br>
-        Rut <input type="text" [(ngModel)]="rut"/>
-        <br><br>
-        Telefono <input type="text" [(ngModel)]="telefono"/>
-        <br><br>
-        Correo <input type="email" [(ngModel)]="correo"/>
-        <br><br>
+<title>+Life - Agendar Hora</title>
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>Agendar hora</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+
+    <!-- Inicio contenido de la tarjeta -->
+
+  <mat-form-field>
+    <mat-label>Nombre</mat-label>
+    <input matInput name="nameInput" placeholder="Juan Pérez" [(ngModel)]="name">
+  </mat-form-field>
+  <br>
+
+  <mat-form-field>
+    <mat-label>RUT</mat-label>
+    <input matInput name="rutInput" placeholder="12345678-9" [(ngModel)]="rut">
+  </mat-form-field>
+  <br>
+
+  <mat-form-field>
+    <mat-label>Teléfono</mat-label>
+    <input matInput name="phoneInput" placeholder="912345678" [(ngModel)]="phone">
+  </mat-form-field>
+  <br>
+
+  <mat-form-field>
+    <mat-label>Correo Electrónico</mat-label>
+    <input matInput name="emailInput" placeholder="email@ejemplo.com" [(ngModel)]="email">
+  </mat-form-field>
+  <br>
+
+  <mat-form-field appearance="fill">
+      <mat-label>Días disponibles</mat-label>
+      <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="datepicker" [min]="minDate" [max]="maxDate" [(ngModel)]="day" (click)="datepicker.open()" placeholder="Elija una fecha">
+      <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+      <mat-datepicker #datepicker ></mat-datepicker>
     </mat-form-field>
-  
-    <mat-card-actions>
-        <button mat-raised-button color="warn" style="top:-10px ;left:210px">ENVIAR</button>
-      </mat-card-actions>
-  </form>
+    <br>
+
+    <mat-form-field class="hour-form-field">
+      <mat-label>Horas disponibles</mat-label>
+      <input matInput type="text" [format]="24" [ngxTimepicker]="init_timepicker"[(ngModel)]="hour">
+    <ngx-material-timepicker #init_timepicker ></ngx-material-timepicker>
+    </mat-form-field>
+    <br>
+
+  <!-- Fin contenido de la tarjeta -->
+
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button>CREAR</button>
+  </mat-card-actions>
+</mat-card>
+
+
