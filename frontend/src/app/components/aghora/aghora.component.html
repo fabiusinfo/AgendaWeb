@@ -33,16 +33,20 @@
 
   <mat-form-field appearance="fill">
       <mat-label>Días disponibles</mat-label>
-      <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="datepicker" [min]="minDate" [max]="maxDate" [(ngModel)]="day" (click)="datepicker.open()" placeholder="Elija una fecha">
+      <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="datepicker" [min]="minDate" [max]="maxDate" [(ngModel)]="day" (click)="datepicker.open()" (dateChange)="getHours()">
       <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
       <mat-datepicker #datepicker ></mat-datepicker>
     </mat-form-field>
     <br>
 
-    <mat-form-field class="hour-form-field">
-      <mat-label>Horas disponibles</mat-label>
-      <input matInput type="text" [format]="24" [ngxTimepicker]="init_timepicker"[(ngModel)]="hour">
-    <ngx-material-timepicker #init_timepicker ></ngx-material-timepicker>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Horas Disponibles</mat-label>
+      <mat-select [(ngModel)]="selected_hour_id" (selectionChange)="printHour()">
+        <mat-option *ngFor="let hour of hours" [value]="hour.id">
+          {{ hour.hour }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
     <br>
 

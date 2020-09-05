@@ -11,8 +11,16 @@ export class AgHoraService {
 
   constructor(private http:HttpClient) { }
 
-  getAllAgHora(): Observable<any>{
+  getAllAppointments(): Observable<any>{
     return this.http.get(this.baseurl + '/appointment/', {headers: this.httpHeaders});
+  }
+
+  getAllDays(): Observable<any>{
+    return this.http.get(this.baseurl + '/hour', {headers: this.httpHeaders});
+  }
+
+  getAllHours(day): Observable<any>{
+    return this.http.get(this.baseurl + '/hour?day='+day, {headers: this.httpHeaders});
   }
 }
 
