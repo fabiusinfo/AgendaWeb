@@ -22,6 +22,7 @@ export class AgHoraService {
   getAllHours(day): Observable<any>{
     return this.http.get(this.baseurl + '/hour?day='+day, {headers: this.httpHeaders});
   }
+
 }
 
 

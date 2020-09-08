@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 from django.core.validators import validate_email, RegexValidator, ValidationError, _
 
 # Create your models here.
@@ -61,17 +61,25 @@ class Appointment(models.Model):
     phone = models.CharField(max_length=9, validators=[])
     email = models.CharField(max_length=60, validators=[validate_email])
     rejected = models.BooleanField(default=False)
-    appointment_day = models.DateField()
-    appointment_hour = models.TimeField()
+    accepted = models.BooleanField(default=False)
 
     def __str__(self):
-        return ("Nombre: %s, RUT: %s, Día: %s, Lugar: %s" %(self.name, self.rut, self.appointment_day, self.appointment_hour))
+        return ("Nombre: %s, RUT: %s" %(self.name, self.rut))
 
 class Hour(models.Model):
-    day = models.DateField()
-    hour = models.TimeField()
+    day = models.DateField(editable=False)
+    hour = models.TimeField(editable=False)
     available = models.BooleanField(default=True)
-    appointment_id = models.ForeignKey(Appointment, on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    appointment_id = models.OneToOneField(Appointment, on_delete=models.PROTECT, blank=True, null=True)
 
     def __str__(self):
-        return ("Día: %s, Hora: %s, Disponible: %s" %(self.day, self.hour, self.available))
+        if self.appointment_id == None:
+            return ("Día: %s, Hora: %s, Disponible: %s" %(self.day, self.hour, self.available))
+        else:
+            if self.appointment_id.rejected:
+                status='Rechazada'
+            elif self.appointment_id.accepted:
+                status='Aceptada'
+            else:
+                status='Pendiente'
+            return ("Día: %s, Hora: %s, Disponible: %s, Nombre: %s, Email: %s, Estado: %s" %(self.day, self.hour, self.available, self.appointment_id.name, self.appointment_id.email, status))

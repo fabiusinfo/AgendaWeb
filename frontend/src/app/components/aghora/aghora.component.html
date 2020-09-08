@@ -9,31 +9,55 @@
 
   <mat-form-field>
     <mat-label>Nombre</mat-label>
-    <input matInput name="nameInput" placeholder="Juan Pérez" [(ngModel)]="name">
+    <input matInput [formControl]="nameFormControl" [errorStateMatcher]="matcher" name="nameInput" placeholder="Ej. Juan Pérez" >
+    <mat-error *ngIf="nameFormControl.hasError('pattern')">
+      Por favor ingrese un nombre válido, solo se admiten carácteres y espacios
+    </mat-error>
+    <mat-error *ngIf="nameFormControl.hasError('required')">
+      Este campo es un <strong>requisito</strong>
+    </mat-error>
   </mat-form-field>
   <br>
 
   <mat-form-field>
     <mat-label>RUT</mat-label>
-    <input matInput name="rutInput" placeholder="12345678-9" [(ngModel)]="rut">
+    <input matInput [formControl]="rutFormControl" [errorStateMatcher]="matcher" name="rutInput" placeholder="Ej. 12345678-9">
+    <mat-error *ngIf="rutFormControl.hasError('invalid')">
+      Por favor ingrese un RUT válido
+    </mat-error>
+    <mat-error *ngIf="rutFormControl.hasError('required')">
+      Este campo es un <strong>requisito</strong>
+    </mat-error>
   </mat-form-field>
   <br>
 
   <mat-form-field>
     <mat-label>Teléfono</mat-label>
-    <input matInput name="phoneInput" placeholder="912345678" [(ngModel)]="phone">
+    <input matInput [formControl]="phoneFormControl" [errorStateMatcher]="matcher" name="phoneInput" placeholder="Ej. 912345678">
+    <mat-error *ngIf="phoneFormControl.hasError('pattern')">
+      Por favor ingrese un número de celular válido
+    </mat-error>
+    <mat-error *ngIf="phoneFormControl.hasError('required')">
+      Este campo es un <strong>requisito</strong>
+    </mat-error>
   </mat-form-field>
   <br>
 
   <mat-form-field>
     <mat-label>Correo Electrónico</mat-label>
-    <input matInput name="emailInput" placeholder="email@ejemplo.com" [(ngModel)]="email">
+    <input matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher" name="emailInput" placeholder="Ej. email@ejemplo.com">
+    <mat-error *ngIf="emailFormControl.hasError('pattern')">
+      Por favor ingrese un email válido
+    </mat-error>
+    <mat-error *ngIf="emailFormControl.hasError('required')">
+      Este campo es un <strong>requisito</strong>
+    </mat-error>
   </mat-form-field>
   <br>
 
   <mat-form-field appearance="fill">
       <mat-label>Días disponibles</mat-label>
-      <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="datepicker" [min]="minDate" [max]="maxDate" [(ngModel)]="day" (click)="datepicker.open()" (dateChange)="getHours()">
+      <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="datepicker" [min]="minDate" [max]="maxDate" [(ngModel)]="day" (keyup.Tab)="datepicker.open()" (click)="datepicker.open()" (dateChange)="getHours()">
       <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
       <mat-datepicker #datepicker ></mat-datepicker>
     </mat-form-field>
@@ -42,8 +66,8 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Horas Disponibles</mat-label>
-      <mat-select [(ngModel)]="selected_hour_id" (selectionChange)="printHour()">
-        <mat-option *ngFor="let hour of hours" [value]="hour.id">
+      <mat-select [(ngModel)]="time" (selectionChange)="printHour()">
+        <mat-option *ngFor="let hour of hours" [value]="hour.hour">
           {{ hour.hour }}
         </mat-option>
       </mat-select>
@@ -54,7 +78,7 @@
 
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button>CREAR</button>
+    <button mat-button (click)='createAppointment()'>CREAR</button>
   </mat-card-actions>
 </mat-card>
 

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
@@ -20,6 +20,9 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { Ng9RutModule } from 'ng9-rut';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +46,8 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MatCardModule,
     MatSelectModule,
     NgxMaterialTimepickerModule,
-
+    ReactiveFormsModule,
+    Ng9RutModule,
 
   ],
   providers: [AgHoraService,
