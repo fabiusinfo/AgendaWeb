@@ -262,6 +262,21 @@ a.white {
 	transition: all 0.2s ease;
 }
 
+/* Custom Section */
+.home-container {
+  margin: auto;
+  width: 50% ;
+  padding: 10px;
+}
+.csv-logo {
+  height: 400px !important;
+}
+.app-content {
+  padding: 5%;
+}
+
+/* End Custom Section */
+
 /* IE10+ hack to solve lower label text position compared to the rest of the browsers */
 @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
 	.label-control {
@@ -1463,7 +1478,7 @@ input[type='checkbox'] {
 
 .copyright .p-small {
 	padding-top: 1.375rem;
-	border-top: 1px solid #718ad1;
+	border-top: 1px solid #fff;
 	color: #f3f7fd;
 }
 
@@ -2150,16 +2165,6 @@ a:hover.back-to-top {
 /* end of min-width width 1200px */
 
 /* extras */
-  .home-container {
-    margin: auto;
-    width: 50% ;
-    padding: 10px;
-  }
-  .csv-logo {
-    height: 400px !important;
-  }
-  .app-content {
-    padding: 5%;
-  }
+
 }
 

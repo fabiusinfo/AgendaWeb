@@ -32,4 +32,4 @@ class AppointmentSerializer(serializers.ModelSerializer):
             day_hour_instance.appointment_id = appointment
             day_hour_instance.available = False
             day_hour_instance.save()
-            return appointment
+            return 'Saved Appointment'

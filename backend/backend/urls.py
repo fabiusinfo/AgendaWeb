@@ -20,6 +20,7 @@ from django.urls import path, include
 from rest_framework import routers
 from agendapi import views
 from django.conf.urls import url, include
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 
 router = routers.DefaultRouter()
 router.register(r'appointment', views.AppointmentViewSet)
@@ -29,5 +30,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
     path('hour', views.HourList.as_view()),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path(r'api-token-auth/', obtain_jwt_token),
+    path(r'api-token-refresh/', refresh_jwt_token),
 ]

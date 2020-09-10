@@ -1,20 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { AgHoraService } from './services/aghora.service';
-import {UserService} from './services/user.service';
+import {UserService} from '../../services/user.service';
 import {throwError} from 'rxjs';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  providers: [AgHoraService]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
-export class AppComponent implements OnInit {
-  public user: any;
-  title = 'frontend';
+export class LoginComponent implements OnInit {
 
-  constructor(private aghora:AgHoraService, private _userService: UserService){
-  }
+  public user: any;
+
+  constructor(public _userService: UserService) { }
 
   ngOnInit() {
     this.user = {
@@ -34,5 +31,6 @@ export class AppComponent implements OnInit {
   logout() {
     this._userService.logout();
   }
+
 
 }

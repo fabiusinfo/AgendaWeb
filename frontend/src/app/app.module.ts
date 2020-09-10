@@ -22,11 +22,15 @@ import {MatSelectModule} from '@angular/material/select';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { Ng9RutModule } from 'ng9-rut';
 
+import { UserService } from './services/user.service';
+import { LoginComponent } from './components/login/login.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    AghoraComponent
+    AghoraComponent,
+    LoginComponent,
   ],
   imports: [
     FormsModule,
@@ -50,8 +54,11 @@ import { Ng9RutModule } from 'ng9-rut';
     Ng9RutModule,
 
   ],
-  providers: [AgHoraService,
-    {provide: MAT_DATE_LOCALE, useValue: 'es-CL'}],
+  providers: [
+    AgHoraService,
+    UserService,
+    {provide: MAT_DATE_LOCALE, useValue: 'es-CL'}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

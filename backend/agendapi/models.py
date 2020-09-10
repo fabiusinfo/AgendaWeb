@@ -53,7 +53,6 @@ def validate_rut(value):
 
 validate_name_characters = RegexValidator(r'^([ \u00c0-\u01ffa-zA-Z\'\-])+$')
 alphanumeric = RegexValidator(r'^[0-9a-zA-Z]*$', 'Solo se permite el uso de letras.')
-    
 
 class Appointment(models.Model):
     name = models.CharField(max_length=60, validators=[validate_name_characters])
@@ -67,8 +66,8 @@ class Appointment(models.Model):
         return ("Nombre: %s, RUT: %s" %(self.name, self.rut))
 
 class Hour(models.Model):
-    day = models.DateField(editable=False)
-    hour = models.TimeField(editable=False)
+    day = models.DateField()
+    hour = models.TimeField()
     available = models.BooleanField(default=True)
     appointment_id = models.OneToOneField(Appointment, on_delete=models.PROTECT, blank=True, null=True)
 
