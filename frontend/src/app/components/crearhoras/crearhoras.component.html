@@ -1,0 +1,31 @@
+<p>crearhoras works!</p>
+
+
+<br>
+<mat-form-field appearance="fill">
+    <mat-label>Fecha</mat-label>
+    <input matInput [matDatepicker]="datepicker" [(ngModel)]="dia">
+    <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+    <mat-datepicker #datepicker></mat-datepicker>
+    
+  </mat-form-field>
+<br>
+
+
+<mat-form-field class="init-hour-form-field">
+    <mat-label>Hora inicio</mat-label>
+    <input matInput type="text" [format]="24" [ngxTimepicker]="init_timepicker"[(ngModel)]="hora_inicio">
+  <ngx-material-timepicker #init_timepicker [theme]="redTheme"></ngx-material-timepicker>
+  </mat-form-field>
+  <br>
+
+  <mat-form-field class="end-hour-form-field">
+    <mat-label>Hora término</mat-label>
+    <input matInput type="text" [format]="24" [ngxTimepicker]="end_timepicker"[(ngModel)]="hora_final">
+<ngx-material-timepicker #end_timepicker [theme]="redTheme"></ngx-material-timepicker>
+</mat-form-field>
+<br>
+
+<mat-card-actions>
+    <button mat-button (click)="createHours()">CREAR</button>
+  </mat-card-actions>

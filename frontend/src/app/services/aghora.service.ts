@@ -22,7 +22,10 @@ export class AgHoraService {
   getAllHours(day): Observable<any>{
     return this.http.get(this.baseurl + '/hour?day='+day, {headers: this.httpHeaders});
   }
-
+  createHours(hour): Observable<any>{
+    const body ={day:hour.day,hour:hour.hour,available:hour.available};
+    return this.http.post(this.baseurl + '/hour/' , body, {headers: this.httpHeaders});
+  }
 }
 
 
