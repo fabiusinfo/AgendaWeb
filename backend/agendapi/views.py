@@ -35,4 +35,9 @@ class HourList(generics.ListAPIView):
         if day is not None:
             queryset = queryset.filter(day=day, available=True)
         return queryset
+
+class HourCreate(generics.CreateAPIView):
+    serializer_class = HourSerializer
+    permission_classes = [IsAuthenticated]
+    
     
