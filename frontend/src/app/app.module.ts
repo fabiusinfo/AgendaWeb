@@ -25,7 +25,7 @@ import { Ng9RutModule } from 'ng9-rut';
 import { UserService } from './services/user.service';
 import { LoginComponent } from './components/login/login.component';
 import { CrearhorasComponent } from './components/crearhoras/crearhoras.component';
-import { ConfirmacionhorasComponent } from './confirmacionhoras/confirmacionhoras.component';
+//import { ConfirmacionhorasComponent } from './confirmacionhoras/confirmacionhoras.component';
 
 
 @NgModule({
@@ -34,7 +34,7 @@ import { ConfirmacionhorasComponent } from './confirmacionhoras/confirmacionhora
     AghoraComponent,
     LoginComponent,
     CrearhorasComponent,
-    ConfirmacionhorasComponent,
+    //ConfirmacionhorasComponent,
   ],
   imports: [
     FormsModule,

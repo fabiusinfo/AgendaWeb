@@ -24,14 +24,14 @@ export class CrearhorasComponent implements OnInit {
         clockHandColor: '#008BA7',
         clockFaceTimeInactiveColor: '#fff'
     }
-  };  
+  };
 
 
   dia: string;
   hora_inicio: string;
   hora_final: string;
 
-  // Se puede asignar el tiempo que tomen las horas tambien pero habiamos 
+  // Se puede asignar el tiempo que tomen las horas tambien pero habiamos
   // acordado 30min asi que esta hardcodeado
 
 
@@ -45,7 +45,10 @@ export class CrearhorasComponent implements OnInit {
     var mini = Number(this.hora_inicio[3]+this.hora_inicio[4]) + horai * 60;
     var horaf = Number(this.hora_final[0]+this.hora_inicio[1]);
     var minf = Number(this.hora_final[0]+this.hora_inicio[1]) + horaf * 60;
+    console.log(mini, minf);
+    console.log(mini <= minf - 30);
     while (mini <= minf - 30){
+      console.log("Entramos al while :)")
       var uploadData = new FormData();
       uploadData.append('day', this.dia);
       uploadData.append('hour', (Math.floor(mini/60)).toString() + ':' + (mini%60).toString());
