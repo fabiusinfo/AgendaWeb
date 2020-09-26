@@ -1,7 +1,6 @@
 from django.db import models, transaction
 from django.core.validators import validate_email, RegexValidator, ValidationError, _
 
-# Create your models here.
 
 def get_rut_digit(rut):
     serie = range(2,8)
@@ -82,3 +81,57 @@ class Hour(models.Model):
             else:
                 status='Pendiente'
             return ("Día: %s, Hora: %s, Disponible: %s, Nombre: %s, Email: %s, Estado: %s" %(self.day, self.hour, self.available, self.appointment_id.name, self.appointment_id.email, status))
+
+# Inicio - Unión con código implementado en el sprint 0
+
+
+
+class Place(models.Model):
+    name = models.CharField(max_length=64)
+    address = models.CharField(max_length=64)
+    next_month_prediction = models.IntegerField(default=0)
+    codigo = models.CharField(max_length=32)
+
+    def __str__(self):
+        return("Lugar: %s , Dirección: %s" %(self.name, self.address))
+
+class Campana(models.Model):
+
+    lugar = models.ForeignKey(Place, on_delete=models.CASCADE)
+    dia_inicio = models.DateField()
+    dia_termino = models.DateField()
+    hora_inicio = models.TimeField()
+    hora_termino = models.TimeField()
+    imagen = models.ImageField(blank=True, null=True, upload_to='campanas')
+
+
+    def __str__(self):
+        return ("Fecha: %s , Lugar: %s" %(self.dia_inicio, self.lugar))
+
+
+class RegDonacion(models.Model):
+    fecha = models.DateField()
+    lugar = models.ForeignKey(Place, on_delete=models.CASCADE)
+    rut = models.CharField(max_length=60) ## ???
+    nombres = models.CharField(max_length=60)
+    apellido1 = models.CharField(max_length=60)
+    apellido2 = models.CharField(max_length=60)
+    sangre = models.CharField(max_length=32)
+    
+
+class Prediction(models.Model):
+
+    place_id = models.ForeignKey(Place, on_delete=models.CASCADE)
+    donators = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Blood(models.Model):
+    blood_name = models.CharField(max_length=64)
+    quantity = models.IntegerField() #Cantidad en ml, 450ml por donación
+
+    def __str__(self):
+        return ("Componente: %s" %(self.blood_name))
+
+# Fin - Unión con código implementado en el sprint 0

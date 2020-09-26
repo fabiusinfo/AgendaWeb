@@ -1,8 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import Appointment, Hour
+from .models import Appointment, Hour, Place, Campana, RegDonacion, Prediction, Blood
 from django.db import transaction
-
 
 
 class HourSerializer(serializers.ModelSerializer):
@@ -33,3 +32,38 @@ class AppointmentSerializer(serializers.ModelSerializer):
             day_hour_instance.available = False
             day_hour_instance.save()
             return 'Saved Appointment'
+
+
+# Inicio - Unión con código implementado en el sprint 0
+
+class PlaceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Place
+        fields = ['id', 'name', 'address', 'next_month_prediction', 'codigo']
+
+class CampanaSerializer(serializers.ModelSerializer):
+    place_name = serializers.CharField(source='lugar.name', read_only=True)
+
+    class Meta:
+        model = Campana
+        fields = ['id', 'lugar', 'dia_inicio', 'dia_termino', 'hora_inicio','hora_termino','imagen', 'place_name']
+
+
+class RegDonacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RegDonacion
+        fields = ['id','fecha','lugar','rut','nombres','apellido1','apellido2', 'sangre']
+
+class PredictionSerializer(serializers.ModelSerializer):
+    place_name = serializers.CharField(source='place_id.name', read_only=True)
+
+    class Meta:
+        model = Prediction
+        fields = ['id', 'place_id', 'donators', 'place_name']
+
+class BloodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Blood
+        fields = ['id', 'blood_name', 'quantity']
+
+# Fin - Unión con código implementado en el sprint 0

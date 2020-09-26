@@ -4,6 +4,7 @@ import { HttpClient} from '@angular/common/http';
 import {FormControl, FormGroupDirective, FormBuilder, NgForm, Validators, ValidatorFn} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { RutValidator, validateRutFactory } from 'ng9-rut';
+import {MatDialog} from '@angular/material/dialog';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -53,12 +54,13 @@ export class AghoraComponent implements OnInit {
   selected_hour_id:string;
   time:string;
 
-  constructor(private http: HttpClient, private hours_api: AgHoraService, fb: FormBuilder, rutValidator: RutValidator) {
+  constructor(private http: HttpClient, private hours_api: AgHoraService, fb: FormBuilder, rutValidator: RutValidator, public dialog: MatDialog) {
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
     this.minDate = new Date(currentYear, currentMonth, 1);
     this.maxDate = new Date(currentYear, currentMonth+1, 31);
     this.getDays();
+
 
   }
 
@@ -116,15 +118,15 @@ export class AghoraComponent implements OnInit {
         error => {console.log(error)}
       );
     }
-    /*
-    else {
-      pass;
-      //show error
-    }
-    */
+  }
+
+  openDialog() {
+
+    console.log(this.rutFormControl.value)
   }
 
   ngOnInit(): void {
   }
+
 
 }

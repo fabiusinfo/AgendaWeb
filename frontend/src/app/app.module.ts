@@ -21,6 +21,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { Ng9RutModule } from 'ng9-rut';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { UserService } from './services/user.service';
 import { LoginComponent } from './components/login/login.component';
@@ -56,6 +57,7 @@ import { CrearhorasComponent } from './components/crearhoras/crearhoras.componen
     NgxMaterialTimepickerModule,
     ReactiveFormsModule,
     Ng9RutModule,
+    MatDialogModule,
 
   ],
   providers: [
