@@ -1,4 +1,4 @@
-import { Component, OnInit,Inject, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit,Inject, Input } from '@angular/core';
 import { AgHoraService } from 'src/app/services/aghora.service';
 import { HttpClient} from '@angular/common/http';
 import {FormControl, FormGroupDirective, FormBuilder, NgForm, Validators, ValidatorFn} from '@angular/forms';
@@ -18,13 +18,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 
-export interface DialogData {
-  name: string;
-  rut: string;
-  phone: string;
-  email: string;
-  
-}
+
 
 @Component({
   selector: 'app-aghora',

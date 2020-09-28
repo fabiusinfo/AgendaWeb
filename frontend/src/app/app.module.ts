@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import { AgHoraService } from './services/aghora.service';
 import { AghoraComponent } from './components/aghora/aghora.component';
+import { CrearhorasComponent } from './components/crearhoras/crearhoras.component';
 import {RouterModule} from '@angular/router';
 import { ROUTING } from './app.routes';
 
@@ -38,6 +39,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     AghoraComponent,
     LoginComponent,
     SnackbarComponent,
+    CrearhorasComponent
 
 
   ],

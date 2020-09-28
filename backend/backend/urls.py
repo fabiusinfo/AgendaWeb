@@ -24,12 +24,18 @@ from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 
 router = routers.DefaultRouter()
 router.register(r'appointment', views.AppointmentViewSet)
-#router.register(r'hours', views.HourViewSet)
+router.register(r'campanas', views.CampanaViewSet)   
+router.register(r'regdonacion',views.RegDonacionViewSet)
+router.register(r'places', views.PlaceViewSet)
+router.register(r'blood', views.BloodViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
     path('hour', views.HourList.as_view()),
+    path('new_hour', views.HourCreate.as_view()),
+    path('eval_model', views.update_predictions, name="update_predictions"),
+    path('predictions', views.predictions, name='predictions'),
     path(r'api-token-auth/', obtain_jwt_token),
     path(r'api-token-refresh/', refresh_jwt_token),
 ]
