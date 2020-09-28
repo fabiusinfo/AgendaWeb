@@ -1,0 +1,37 @@
+<table mat-table [dataSource]="campanas" class="mat-elevation-z8">
+  <div>
+  <!-- Columna Lugar de campaña -->
+  <ng-container matColumnDef="place_name">
+    <mat-header-cell *matHeaderCellDef> Lugar </mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openDialog(element)"> {{element.place_name}} </mat-cell>
+  </ng-container>
+
+  <!-- Columna Día de Inicio -->
+  <ng-container matColumnDef="dia_inicio">
+    <mat-header-cell *matHeaderCellDef> Día Inicio </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.dia_inicio}} </mat-cell>
+  </ng-container>
+
+  <!-- Columna Día de Término -->
+  <ng-container matColumnDef="dia_termino">
+    <mat-header-cell *matHeaderCellDef> Día Término </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.dia_termino}} </mat-cell>
+  </ng-container>
+
+  <!-- Columna Hora de Inicio -->
+  <ng-container matColumnDef="hora_inicio">
+    <mat-header-cell *matHeaderCellDef> Hora Inicio </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.hora_inicio}} </mat-cell>
+  </ng-container>
+
+  <!-- Columna Hora de Término -->
+  <ng-container matColumnDef="hora_termino">
+    <mat-header-cell *matHeaderCellDef> Hora Término </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.hora_termino}} </mat-cell>
+  </ng-container>
+  </div>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons></mat-paginator>
