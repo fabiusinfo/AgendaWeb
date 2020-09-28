@@ -23,7 +23,13 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { Ng9RutModule } from 'ng9-rut';
 
 import { UserService } from './services/user.service';
+
 import { LoginComponent } from './components/login/login.component';
+
+import {MatDialogModule} from '@angular/material/dialog';
+import { SnackbarComponent } from './components/aghora/snackbar/snackbar.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 
 @NgModule({
@@ -31,6 +37,9 @@ import { LoginComponent } from './components/login/login.component';
     AppComponent,
     AghoraComponent,
     LoginComponent,
+    SnackbarComponent,
+
+
   ],
   imports: [
     FormsModule,
@@ -52,11 +61,14 @@ import { LoginComponent } from './components/login/login.component';
     NgxMaterialTimepickerModule,
     ReactiveFormsModule,
     Ng9RutModule,
+    MatDialogModule,
+    MatSnackBarModule
 
   ],
   providers: [
     AgHoraService,
     UserService,
+ 
     {provide: MAT_DATE_LOCALE, useValue: 'es-CL'}
   ],
   bootstrap: [AppComponent]
