@@ -1,0 +1,16 @@
+
+
+
+.success {
+    list-style: none;
+    background-color: green;
+    color: white;
+    text-align: center;
+}
+
+.fail {  
+    list-style: none;
+    background-color: red;
+    color: white;
+    text-align: center;
+}

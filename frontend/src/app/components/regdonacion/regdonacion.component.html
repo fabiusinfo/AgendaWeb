@@ -1,0 +1,95 @@
+<mat-card class="reg-donation form-card">
+  <mat-card-header>
+    <mat-card-title>Registrar donaciones</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+
+    <!-- Inicio contenido de la tarjeta -->
+
+    <p *ngIf="success" class="success" (click)="success=false">Datos guardados con exito!</p>
+    <p *ngIf="fail" class="fail" (click)="fail=false">Error, por favor llene bien los datos </p>
+
+
+    <mat-form-field appearance="fill">
+      <mat-label>Lugar</mat-label>
+      <mat-select [(ngModel)]="lugar">
+        <mat-option *ngFor="let place of places" [value]="place.id">
+          {{ place.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="fecha">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field>
+      <mat-label>Rut</mat-label>
+      <input matInput placeholder="12345678-9" [(ngModel)]="rut">
+    </mat-form-field>
+    <br>
+
+    <mat-form-field>
+      <mat-label>Nombres</mat-label>
+      <input matInput placeholder="Juan Gabriel" [(ngModel)]="nombres">
+    </mat-form-field>
+    <br>
+
+
+    <mat-form-field>
+      <mat-label>Primer Apellido</mat-label>
+      <input matInput placeholder="Perez" [(ngModel)]="apellido1">
+    </mat-form-field>
+    <br>
+
+
+    <mat-form-field>
+      <mat-label>Segundo Apellido</mat-label>
+      <input matInput placeholder="Vega" [(ngModel)]="apellido2">
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo de Sangre</mat-label>
+      <mat-select [(ngModel)]="sangre">
+        <mat-option value="A+">
+          A+
+        </mat-option>
+        <mat-option value="A-">
+          A-
+        </mat-option>
+        <mat-option value="B+">
+          B+
+        </mat-option>
+        <mat-option value="B-">
+          B-
+        </mat-option>
+        <mat-option value="O+">
+          O+
+        </mat-option>
+        <mat-option value="O-">
+          O-
+        </mat-option>
+        <mat-option value="AB+">
+          AB+
+        </mat-option>
+        <mat-option value="AB-">
+          AB-
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  <!-- Fin contenido de la tarjeta -->
+
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="createDonation()">INGRESAR</button>
+  </mat-card-actions>
+</mat-card>
+
+

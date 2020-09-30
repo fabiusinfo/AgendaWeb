@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>¿Estas seguro de agendar esta hora?</h2>
+<div mat-dialog-content>
+  <p>Nombre: {{data.name}}</p>
+  <p>Rut: {{data.rut}}</p>
+  <p>Teléfono: {{data.phone}}</p>
+  <p>Correo Electrónico: {{data.email}}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button (click)=agenda.createAppointment() cdkFocusInitial>Ok</button>
+</div>

@@ -1,24 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Inject, Input } from '@angular/core';
 import { AgHoraService } from 'src/app/services/aghora.service';
 import { HttpClient} from '@angular/common/http';
 import {FormControl, FormGroupDirective, FormBuilder, NgForm, Validators, ValidatorFn} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { RutValidator, validateRutFactory } from 'ng9-rut';
-import {MatDialog} from '@angular/material/dialog';
+import {SnackbarComponent} from './snackbar/snackbar.component';
+import {MatDialog, MAT_DIALOG_DATA,MatDialogRef} from '@angular/material/dialog';
+
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
+
+
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
 }
 
+
+
 @Component({
   selector: 'app-aghora',
   templateUrl: './aghora.component.html',
   styleUrls: ['./aghora.component.css']
 })
-export class AghoraComponent implements OnInit {
+export class AghoraComponent  {
+
 
   nameFormControl = new FormControl('', [
     Validators.required,
@@ -54,15 +62,19 @@ export class AghoraComponent implements OnInit {
   selected_hour_id:string;
   time:string;
 
-  constructor(private http: HttpClient, private hours_api: AgHoraService, fb: FormBuilder, rutValidator: RutValidator, public dialog: MatDialog) {
+  flaggood:boolean=false; //banderas para saber cuando mostrar el mensaje
+  flagbad:boolean=false;
+  durationInSeconds = 5;
+  constructor(private _snackBar: MatSnackBar, private http: HttpClient, private hours_api: AgHoraService, fb: FormBuilder, rutValidator: RutValidator,
+    public dialog: MatDialog) {
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
     this.minDate = new Date(currentYear, currentMonth, 1);
     this.maxDate = new Date(currentYear, currentMonth+1, 31);
     this.getDays();
 
-
   }
+
 
   validDates = {};
   hours = [];
@@ -102,7 +114,17 @@ export class AghoraComponent implements OnInit {
     return this.validDates[d.toISOString().split('T')[0]];
   }
 
+
   createAppointment() {
+    if (confirm(`¿Estas seguro de agendar la hora?\n
+                        Resumen
+          Nombre: ${this.nameFormControl.value}
+          Rut: ${this.rutFormControl.value}
+          Teléfono: ${this.phoneFormControl.value}
+          Correo: ${this.emailFormControl.value}
+          Dia: ${this.day.toISOString().split("T")[0]}
+          Hora: ${this.time}`)) {
+
     if (this.rutFormControl.valid && this.nameFormControl.valid && this.emailFormControl.valid && this.phoneFormControl.valid && this.day != undefined && this.time != undefined){
       const uploadData = new FormData();
       this.rutFormControl.setValue(this.rutFormControl.value.replace(/\D/g, ""))
@@ -117,16 +139,42 @@ export class AghoraComponent implements OnInit {
         data => {console.log(data)},
         error => {console.log(error)}
       );
+      this.flaggood=true;
+      this._snackBar.open('Tu hora se agendo satisfactoriamente','', {
+        duration: 5000,
+      });
+      setTimeout(()=>{
+        this.flaggood=false;
+      },5000);
     }
+    
+    else {
+      this.flagbad=true;
+      this._snackBar.open('No se pudo agendar la hora, corrobora que tus datos estén bien','', {
+        duration:  5000,
+      });
+      setTimeout(()=>{
+        this.flagbad=false;
+      },5000);
+    }
+  } 
+    
   }
 
-  openDialog() {
+ 
 
-    console.log(this.rutFormControl.value)
-  }
 
-  ngOnInit(): void {
-  }
+
+
+
+ 
+
 
 
 }
+
+
+  
+
+ 
+
