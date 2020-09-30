@@ -26,6 +26,34 @@ export class AgHoraService {
     const body ={day:hour.day,hour:hour.hour,available:hour.available};
     return this.http.post(this.baseurl + '/hour/' , body, {headers: this.httpHeaders});
   }
+  getAllUnconfrimedAppointments(token): Observable<any>{
+    return this.http.get(this.baseurl + '/confirm_appointments', {headers: new HttpHeaders({
+      'Authorization': 'JWT ' + token,
+      'Content-type': 'application/json'
+    })});
+  }
+  updateAppointment(appointment,token): Observable<any>{
+    const body = appointment
+    return this.http.patch(this.baseurl + '/appointment/' + appointment.id + '/',body, {headers: new HttpHeaders({
+      'Authorization': 'JWT ' + token,
+      'Content-type': 'application/json'
+    })});
+  }
+  getHourbyAppointmendid(id,token): Observable<any>{
+    return this.http.get(this.baseurl + '/hour1?id='+id, {headers: new HttpHeaders({
+      'Authorization': 'JWT ' + token,
+      'Content-type': 'application/json'
+    })});
+  }
+
+  updateHour(hour,token): Observable<any>{
+    const body = hour
+    return this.http.patch(this.baseurl + '/appointment/' + hour.id + '/',body, {headers: new HttpHeaders({
+      'Authorization': 'JWT ' + token,
+      'Content-type': 'application/json'
+    })});
+  }
+  
 }
 
 

@@ -31,6 +31,13 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
 
 # API's
+class AppointmentList(generics.ListAPIView):
+    serializer_class = AppointmentSerializer
+    permissions_classes = [IsAuthenticated|ReadOnly]
+    def get_queryset(self):
+        queryset = Appointment.objects.filter(accepted=False, rejected=False)
+        return queryset
+
 
 class HourList(generics.ListAPIView):
     serializer_class = HourSerializer
@@ -46,6 +53,17 @@ class HourCreate(generics.CreateAPIView):
     serializer_class = HourSerializer
     permission_classes = [IsAuthenticated]
     
+class HourbyAppointmentID(generics.ListAPIView):
+    serializer_class = HourSerializer
+    permission_classes = [IsAuthenticated|ReadOnly]
+    def get_queryset(self):
+        queryset = Hour.objects.filter(available=False)
+        appointmentid = self.request.query_params.get('id',None)
+        if appointmentid is not None:
+            queryset = queryset.filter(appointment_id=appointmentid)
+        return queryset
+
+
 # Inicio - Unión con código implementado en el sprint 0
 
 class PlaceViewSet(viewsets.ModelViewSet):

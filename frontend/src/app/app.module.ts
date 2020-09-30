@@ -26,7 +26,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { UserService } from './services/user.service';
 import { LoginComponent } from './components/login/login.component';
 import { CrearhorasComponent } from './components/crearhoras/crearhoras.component';
-//import { ConfirmacionhorasComponent } from './confirmacionhoras/confirmacionhoras.component';
+import { ConfirmarhorasComponent } from './components/confirmarhoras/confirmarhoras.component';
 
 
 @NgModule({
@@ -35,7 +35,7 @@ import { CrearhorasComponent } from './components/crearhoras/crearhoras.componen
     AghoraComponent,
     LoginComponent,
     CrearhorasComponent,
-    //ConfirmacionhorasComponent,
+    ConfirmarhorasComponent,
   ],
   imports: [
     FormsModule,

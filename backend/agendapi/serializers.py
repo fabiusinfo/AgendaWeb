@@ -21,7 +21,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
     hour = serializers.TimeField(write_only=True)
     class Meta:
         model=Appointment
-        fields = ['id', 'name', 'rut', 'phone', 'email', 'day', 'hour']
+        fields = ['id', 'name', 'rut', 'phone', 'email', 'day', 'hour','accepted','rejected']
     def create(self, validated_data):
         with transaction.atomic():
             appointment_day = validated_data.pop('day')
