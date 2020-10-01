@@ -48,12 +48,12 @@ export class AgHoraService {
 
   updateHour(hour,token): Observable<any>{
     const body = hour
-    return this.http.patch(this.baseurl + '/appointment/' + hour.id + '/',body, {headers: new HttpHeaders({
+    return this.http.patch(this.baseurl + '/hr/' + hour.id + '/', body, {headers: new HttpHeaders({
       'Authorization': 'JWT ' + token,
       'Content-type': 'application/json'
     })});
   }
-  
+
 }
 
 

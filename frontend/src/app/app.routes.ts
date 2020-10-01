@@ -7,20 +7,19 @@ import { HomeComponent } from './components/home/home.component';
 import { CampaignsComponent } from './components/campaigns/campaigns.component';
 import { RegdonacionComponent } from './components/regdonacion/regdonacion.component';
 import { CollectionComponent } from './components/collection/collection.component';
+import { NewcampaignComponent } from './components/newcampaign/newcampaign.component';
 
 const ROUTES: Routes = [
     {path: 'agendar', component: AghoraComponent},
     {path: 'admin', component: CrearhorasComponent},
     {path: 'confirmarhoras', component: ConfirmarhorasComponent},
-    {path: '', pathMatch: 'full', redirectTo: 'agendar'},
     {path: 'home', component: HomeComponent},
     {path: 'campanas', component: CampaignsComponent},
     {path: 'registrardonacion', component: RegdonacionComponent},
-    {path: 'newcampaign', component: CampaignsComponent},
+    {path: 'newcampaign', component: NewcampaignComponent},
     {path: 'recoleccion', component: CollectionComponent},
     {path: 'login', component: LoginComponent},
-    {path: '', pathMatch: 'full', redirectTo: 'agendar'},
-    {path: '**', pathMatch: 'full', redirectTo: 'agendar'}
+    {path: '', pathMatch: 'full', redirectTo: 'agendar'}
 
 ];
 export const ROUTING = RouterModule.forRoot(ROUTES);

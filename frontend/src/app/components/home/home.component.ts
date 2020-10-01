@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PredictionsService } from '../../services/predictions.service';
 import { BloodService } from '../../services/blood.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -14,12 +15,13 @@ export class HomeComponent implements OnInit {
 
   predictionsData;
   bloodStock;
+  public user: any;
 
   customTrackBy(index: number, obj: any): any {
     return index;
   }
 
-  constructor(private api: PredictionsService, private bloodApi: BloodService, private snackBar: MatSnackBar) {
+  constructor(private api: PredictionsService, private bloodApi: BloodService, private snackBar: MatSnackBar, public userService: UserService) {
     this.getPredictions();
     this.getBloodStocks();
     this.predictionsData = {n_don: 0, pred: 0};
@@ -77,6 +79,21 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.user = {
+      username: '',
+      password: ''
+    };
   }
 
+  login() {
+    this.userService.login({username: this.user.username, password: this.user.password});
+  }
+
+  refreshToken() {
+    this.userService.refreshToken();
+  }
+
+  logout() {
+    this.userService.logout();
+  }
 }

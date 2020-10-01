@@ -1,0 +1,17 @@
+Mapa de como se usaran los distintos componentes de la aplicación
+
+<app>
+  <aghora>
+  <admin>
+    token?
+    <app-main-nav>
+      <home>
+      <campaigns>
+      <confirmarhoras>
+      <crearhoras>
+      <regdonacion>
+    </app-main-nav>
+    :
+    <login>
+  </admin>
+</app>

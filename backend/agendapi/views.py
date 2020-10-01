@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.http import JsonResponse
 from rest_framework import viewsets, permissions, generics
 from .serializers import AppointmentSerializer, HourSerializer, PlaceSerializer, CampanaSerializer , RegDonacionSerializer, PredictionSerializer, BloodSerializer
 from .models import Appointment, Hour, Place, Campana, RegDonacion, Prediction, Blood
@@ -13,6 +14,7 @@ from joblib import load
 import statsmodels.api
 from os import listdir
 from os.path import isfile, join
+import logging
 
 # Custom permissions classes
 
@@ -23,6 +25,10 @@ class ReadOnly(BasePermission):
 class CreateOnly(BasePermission):
     def has_permission(self, request, view):
         return request.method == 'POST'
+
+class PutOnly(BasePermission):
+    def has_permission(self, request, view):
+        return request.method == 'PUT'
 
 
 class AppointmentViewSet(viewsets.ModelViewSet):
@@ -38,6 +44,15 @@ class AppointmentList(generics.ListAPIView):
         queryset = Appointment.objects.filter(accepted=False, rejected=False)
         return queryset
 
+class HourViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = HourSerializer
+    queryset = Hour.objects.all()
+    
+    def patch(self, request, *args, **kwargs):
+
+        
+        return self.partial_update(request, *args, **kwargs)
 
 class HourList(generics.ListAPIView):
     serializer_class = HourSerializer
@@ -48,6 +63,13 @@ class HourList(generics.ListAPIView):
         if day is not None:
             queryset = queryset.filter(day=day, available=True)
         return queryset
+
+class HourUpdate(generics.UpdateAPIView):
+    queryset = Hour.objects.all()
+    serializer_class = HourSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+
 
 class HourCreate(generics.CreateAPIView):
     serializer_class = HourSerializer
@@ -69,12 +91,12 @@ class HourbyAppointmentID(generics.ListAPIView):
 class PlaceViewSet(viewsets.ModelViewSet):
     queryset = Place.objects.all()
     serializer_class = PlaceSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated|ReadOnly]
 
 class BloodViewSet(viewsets.ModelViewSet):
     queryset = Blood.objects.all()
     serializer_class = BloodSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated|ReadOnly|PutOnly]
 
 class CampanaViewSet(viewsets.ModelViewSet):
     """
@@ -82,7 +104,7 @@ class CampanaViewSet(viewsets.ModelViewSet):
     """
     queryset = Campana.objects.all()
     serializer_class = CampanaSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated|ReadOnly]
 
     def post(self, request, *args, **kwargs):
         lugar = request.data['lugar']
@@ -103,7 +125,7 @@ class RegDonacionViewSet(viewsets.ModelViewSet):
 class PredictionViewSet(viewsets.ModelViewSet):
     queryset = Prediction.objects.all()
     serializer_class = PredictionSerializer
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
     def ohe_to_class(y):
         test = list()
@@ -183,7 +205,7 @@ def update_predictions(request):
     total_donations = 0
     for _id in files:
         df = pd.read_csv("../Data/data/id/"+_id+".csv")
-
+        print(_id)
         
         model = keras.models.load_model('../Data/entrada.h5')
         val = df.values

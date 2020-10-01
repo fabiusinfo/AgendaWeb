@@ -10,7 +10,7 @@ import {UserService} from '../../services/user.service';
   styleUrls: ['./confirmarhoras.component.css']
 })
 export class ConfirmarhorasComponent implements OnInit {
-  appointments = [{name:'placeholder',rut:'5.126.663-3',phone:'133',email:'email@email.email',rejected:false,accepted:false}] 
+  appointments = [{name:'placeholder',rut:'5.126.663-3',phone:'133',email:'email@email.email',rejected:false,accepted:false}]
   gotData = false
   token = ''
   public user: any;
@@ -58,28 +58,32 @@ export class ConfirmarhorasComponent implements OnInit {
         console.log(error);
       }
     )
-    this.getHourAppointment(appointment.id);
-    this.hour.available = true;
-    this.hour.appointment_id = null;
-    console.log(this.hour);
-    this.hour.appointment_email =''
-    this.hour.appointment_name = ''
-    this.hours_api.updateHour(this.hour,this.token).subscribe(
-      data =>{
-        this.hour = data;
-        console.log(data);
+    this.hours_api.getHourbyAppointmendid(appointment.id,this.token).subscribe(
+      data => {
+        this.hour = data[0];
+        console.log(this.hour);
+        this.hour.available = true;
+        this.hours_api.updateHour(this.hour,this.token).subscribe(
+          data =>{
+            this.hour = data;
+            console.log(data);
+          },
+          error=> {
+            console.log(error);
+          }
+        )
       },
-      error=> {
+      error => {
         console.log(error);
       }
-    )
+    );
   }
   getHourAppointment(id){
     this.token = this._userService.token;
     this.hours_api.getHourbyAppointmendid(id,this.token).subscribe(
       data => {
-        this.hour = data;
-        console.log(data);
+        this.hour = data[0];
+        console.log(this.hour);
       },
       error => {
         console.log(error);

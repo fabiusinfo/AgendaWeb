@@ -29,36 +29,36 @@ export class CrearhorasComponent implements OnInit {
 
   public user: any;
   dia: string;
-  hora_inicio: string;
-  hora_final: string;
+  horaInicio: string;
+  horaFinal: string;
 
   // Se puede asignar el tiempo que tomen las horas tambien pero habiamos
   // acordado 30min asi que esta hardcodeado
 
-  constructor(private http: HttpClient, private hours_api: AgHoraService, public _userService: UserService) {
+  constructor(private http: HttpClient, public userService: UserService) {
   }
   createHours() {
-    var day = new Date(this.dia);
-    this.dia = day.toISOString().split("T")[0];
-    var horai = Number(this.hora_inicio[0]+this.hora_inicio[1]);
-    var mini = Number(this.hora_inicio[3]+this.hora_inicio[4]) + horai * 60;
-    var horaf = Number(this.hora_final[0]+this.hora_final[1]);
-    var minf = Number(this.hora_final[0]+this.hora_final[1]) + horaf * 60;
+    const day = new Date(this.dia);
+    this.dia = day.toISOString().split('T')[0];
+    const horai = Number(this.horaInicio[0] + this.horaInicio[1]);
+    let mini = Number(this.horaInicio[3] + this.horaInicio[4]) + horai * 60;
+    const horaf = Number(this.horaFinal[0] + this.horaFinal[1]);
+    const minf = Number(this.horaFinal[0] + this.horaFinal[1]) + horaf * 60;
     // Se agrega el token de autorización al header
-    let httpOptions = {
+    const httpOptions = {
       headers: new HttpHeaders({
-        'Authorization': 'JWT ' + this._userService.token
+        Authorization: 'JWT ' + this.userService.token
       })
     };
 
-    while (mini <= minf - 30){
-      var uploadData = new FormData();
+    while (mini <= minf - 30) {
+      const uploadData = new FormData();
       uploadData.append('day', this.dia);
-      uploadData.append('hour', (Math.floor(mini/60)) + ':' + (mini%60).toString());
+      uploadData.append('hour', (Math.floor(mini / 60)) + ':' + (mini % 60).toString());
       uploadData.append('available', 'true');
       this.http.post('http://127.0.0.1:8000/new_hour', uploadData, httpOptions).subscribe(
-        data => {console.log(data);},
-        error => {console.log(error);}
+        data => {console.log(data); },
+        error => {console.log(error); }
       );
       mini = mini + 30;
     }
@@ -72,15 +72,15 @@ export class CrearhorasComponent implements OnInit {
   }
 
   login() {
-    this._userService.login({'username': this.user.username, 'password': this.user.password});
+    this.userService.login({username: this.user.username, password: this.user.password});
   }
 
   refreshToken() {
-    this._userService.refreshToken();
+    this.userService.refreshToken();
   }
 
   logout() {
-    this._userService.logout();
+    this.userService.logout();
   }
 
 }

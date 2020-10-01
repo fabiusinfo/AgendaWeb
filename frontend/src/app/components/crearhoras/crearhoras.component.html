@@ -1,24 +1,24 @@
-<div class="row" *ngIf="!_userService.token">
+<div class="row" *ngIf="!userService.token">
   <div class="col-sm-4">
     <label>Usuario</label><br />
     <input type="text" name="login-username" [(ngModel)]="user.username">
-    <span *ngFor="let error of _userService.errors.username"><br />
+    <span *ngFor="let error of userService.errors.username"><br />
     {{ error }}</span></div>
   <div class="col-sm-4">
     <label>Contraseña</label><br />
     <input type="password" name="login-password" [(ngModel)]="user.password">
-    <span *ngFor="let error of _userService.errors.password"><br />
+    <span *ngFor="let error of userService.errors.password"><br />
     {{ error }}</span>
   </div>
   <div class="col-sm-4">
     <button (click)="login()" class="btn btn-primary">Ingresar</button>
   </div>
   <div class="col-sm-12">
-    <span *ngFor="let error of _userService.errors.non_field_errors">{{ error }}<br /></span>
+    <span *ngFor="let error of userService.errors.non_field_errors">{{ error }}<br /></span>
   </div>
 </div>
-<div class="row" *ngIf="_userService.token">
-  <div class="col-sm-12">Estás logeado como {{ _userService.username }}.<br />
+<div class="row" *ngIf="userService.token">
+  <div class="col-sm-12">Estás logeado como {{ userService.username }}.<br />
     <br>
     <mat-form-field appearance="fill">
       <mat-label>Fecha</mat-label>
@@ -32,14 +32,14 @@
 
     <mat-form-field class="init-hour-form-field">
       <mat-label>Hora inicio</mat-label>
-      <input matInput type="text" [format]="24" [ngxTimepicker]="init_timepicker"[(ngModel)]="hora_inicio">
+      <input matInput type="text" [format]="24" [ngxTimepicker]="init_timepicker"[(ngModel)]="horaInicio">
       <ngx-material-timepicker #init_timepicker [theme]="redTheme"></ngx-material-timepicker>
     </mat-form-field>
     <br>
 
     <mat-form-field class="end-hour-form-field">
       <mat-label>Hora término</mat-label>
-      <input matInput type="text" [format]="24" [ngxTimepicker]="end_timepicker"[(ngModel)]="hora_final">
+      <input matInput type="text" [format]="24" [ngxTimepicker]="end_timepicker"[(ngModel)]="horaFinal">
       <ngx-material-timepicker #end_timepicker [theme]="redTheme"></ngx-material-timepicker>
     </mat-form-field>
     <br>

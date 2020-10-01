@@ -5,9 +5,16 @@
     text-align: center;
 }
 
-.fail {  
+.fail {
     list-style: none;
     background-color: red;
     color: white;
     text-align: center;
+}
+
+.createcampaign-card {
+  width: 60%;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 5%
 }

@@ -8,6 +8,7 @@ import {SnackbarComponent} from './snackbar/snackbar.component';
 import {MatDialog, MAT_DIALOG_DATA,MatDialogRef} from '@angular/material/dialog';
 
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { PlaceService } from 'src/app/services/place.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
 
@@ -65,14 +66,30 @@ export class AghoraComponent  {
   flaggood:boolean=false; //banderas para saber cuando mostrar el mensaje
   flagbad:boolean=false;
   durationInSeconds = 5;
+
+  lugar: string;
+  places = [];
   constructor(private _snackBar: MatSnackBar, private http: HttpClient, private hours_api: AgHoraService, fb: FormBuilder, rutValidator: RutValidator,
-    public dialog: MatDialog) {
+    public dialog: MatDialog, private placesApi: PlaceService) {
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
     this.minDate = new Date(currentYear, currentMonth, 1);
     this.maxDate = new Date(currentYear, currentMonth+1, 31);
     this.getDays();
+    this.getPlaces();
 
+  }
+
+  getPlaces = () => {
+    this.placesApi.getAllPlaces().subscribe(
+      data => {
+        this.places = data;
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
 
@@ -147,7 +164,7 @@ export class AghoraComponent  {
         this.flaggood=false;
       },5000);
     }
-    
+
     else {
       this.flagbad=true;
       this._snackBar.open('No se pudo agendar la hora, corrobora que tus datos estén bien','', {
@@ -157,24 +174,24 @@ export class AghoraComponent  {
         this.flagbad=false;
       },5000);
     }
-  } 
-    
   }
 
- 
+  }
 
 
 
 
 
- 
+
+
+
 
 
 
 }
 
 
-  
 
- 
+
+
 

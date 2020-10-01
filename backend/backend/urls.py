@@ -28,6 +28,7 @@ router.register(r'campanas', views.CampanaViewSet)
 router.register(r'regdonacion',views.RegDonacionViewSet)
 router.register(r'places', views.PlaceViewSet)
 router.register(r'blood', views.BloodViewSet)
+router.register(r'hr', views.HourViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -39,6 +40,8 @@ urlpatterns = [
     path('hour1', views.HourbyAppointmentID.as_view()),
     path('eval_model', views.update_predictions, name="update_predictions"),
     path('predictions', views.predictions, name='predictions'),
+    path("r'^(?P<id>\d+)/$", views.HourUpdate.as_view()),
+
     path(r'api-token-auth/', obtain_jwt_token),
     path(r'api-token-refresh/', refresh_jwt_token),
 ]

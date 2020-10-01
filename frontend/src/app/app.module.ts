@@ -23,7 +23,6 @@ import { Ng9RutModule } from 'ng9-rut';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { CollectionComponent } from './components/collection/collection.component';
 import { MatTableModule } from '@angular/material/table';
@@ -43,7 +42,7 @@ import { NewcampaignComponent } from './components/newcampaign/newcampaign.compo
 import { CampaignsDialogComponent } from './components/campaigns-dialog/campaigns-dialog.component';
 import { HomeComponent } from './components/home/home.component';
 import { ConfirmarhorasComponent } from './components/confirmarhoras/confirmarhoras.component';
-
+import { MainNavComponent } from './components/main-nav/main-nav.component';
 
 // Servicios
 import { AgHoraService } from './services/aghora.service';
