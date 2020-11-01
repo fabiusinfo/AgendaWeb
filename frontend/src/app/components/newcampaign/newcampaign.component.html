@@ -3,12 +3,12 @@
       <div class="row" *ngIf="!userService.token">
         <mat-form-field class="col-sm-3">
           <mat-label>Usuario</mat-label>
-          <input matInput placeholder="nombre usuario" [(ngModel)]="user.name">
+          <input matInput type="text" name="login-username" [(ngModel)]="user.username">
         </mat-form-field>
         <br>
         <mat-form-field>
           <mat-label>Password</mat-label>
-          <input matInput placeholder="********" [(ngModel)]="user.Password">
+          <input matInput type="password" name="login-password" [(ngModel)]="user.password">
         </mat-form-field>
         <br>
       <div class="col-sm-4">
