@@ -17,7 +17,7 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
+    <mat-toolbar class="header-bar" color="primary">
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -28,6 +28,7 @@
       </button>
       <span>+Life</span>
     </mat-toolbar>
+    <ng-content></ng-content>
     <!-- Add Content Here -->
   </mat-sidenav-content>
 </mat-sidenav-container>

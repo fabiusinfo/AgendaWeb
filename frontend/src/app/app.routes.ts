@@ -19,7 +19,7 @@ const ROUTES: Routes = [
     {path: 'newcampaign', component: NewcampaignComponent},
     {path: 'recoleccion', component: CollectionComponent},
     {path: 'login', component: LoginComponent},
-    {path: '', pathMatch: 'full', redirectTo: 'agendar'}
+    {path: '', pathMatch: 'full', redirectTo: 'agendar'},
 
 ];
 export const ROUTING = RouterModule.forRoot(ROUTES);
