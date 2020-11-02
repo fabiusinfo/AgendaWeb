@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AgHoraService } from './services/aghora.service';
 import {UserService} from './services/user.service';
 import {throwError} from 'rxjs';
+import {Router} from '@angular/router';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -12,10 +14,17 @@ import {throwError} from 'rxjs';
 export class AppComponent implements OnInit {
   public user: any;
   title = 'frontend';
+  flag = true;
 
-  constructor(private aghora:AgHoraService, private _userService: UserService){
+  constructor(private aghora:AgHoraService, private _userService: UserService,router: Router,location: Location){
+    router.events.subscribe(val => {
+      if (location.path() != "/agendar"){
+        this.flag = true;
+      } else {
+        this.flag = false;
+      }
+    })
   }
-
   ngOnInit() {
     this.user = {
       username: '',
