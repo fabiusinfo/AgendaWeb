@@ -1,0 +1,24 @@
+[
+    {
+        "id": 2,
+        "lugar": 1,
+        "dia_inicio": "2020-10-15",
+        "dia_termino": "2020-10-22",
+        "hora_inicio": "12:00:00",
+        "hora_termino": "16:00:00",
+        "imagen": "http://a6c628ed50c1.ngrok.io/campanas/perfil-universidad-federico-santa-maria.jpg",
+        "place_name": "Centro de Sangre Valparaíso",
+        "place_address": "Blas Cuevas 985 Subida, El Litre, Valparaíso"
+    },
+    {
+        "id": 3,
+        "lugar": 2,
+        "dia_inicio": "2020-10-02",
+        "dia_termino": "2020-10-08",
+        "hora_inicio": "12:00:00",
+        "hora_termino": "16:00:00",
+        "imagen": "http://a6c628ed50c1.ngrok.io/campanas/perfil-universidad-federico-santa-maria_qBzhoZQ.jpg",
+        "place_name": "Universidad Técnica Federico Santa María",
+        "place_address": "Av. España 1680, Valparaíso"
+    }
+]
