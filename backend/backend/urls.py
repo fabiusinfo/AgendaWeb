@@ -41,6 +41,8 @@ urlpatterns = [
     path('eval_model', views.update_predictions, name="update_predictions"),
     path('predictions', views.predictions, name='predictions'),
     path("r'^(?P<id>\d+)/$", views.HourUpdate.as_view()),
+    path('user/', views.UserCreate.as_view(), name='users'),
+    path('api/active_campaigns', views.ListActiveCampaigns.as_view(), name='list_active_campaigns'),
 
     path(r'api-token-auth/', obtain_jwt_token),
     path(r'api-token-refresh/', refresh_jwt_token),

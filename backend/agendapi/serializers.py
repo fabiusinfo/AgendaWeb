@@ -1,5 +1,6 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
 from .models import Appointment, Hour, Place, Campana, RegDonacion, Prediction, Blood
 from django.db import transaction
 
@@ -43,10 +44,11 @@ class PlaceSerializer(serializers.ModelSerializer):
 
 class CampanaSerializer(serializers.ModelSerializer):
     place_name = serializers.CharField(source='lugar.name', read_only=True)
+    place_address = serializers.CharField(source='lugar.address', read_only=True)
 
     class Meta:
         model = Campana
-        fields = ['id', 'lugar', 'dia_inicio', 'dia_termino', 'hora_inicio','hora_termino','imagen', 'place_name']
+        fields = ['id', 'lugar', 'dia_inicio', 'dia_termino', 'hora_inicio','hora_termino','imagen', 'place_name', 'place_address']
 
 
 class RegDonacionSerializer(serializers.ModelSerializer):
@@ -67,3 +69,27 @@ class BloodSerializer(serializers.ModelSerializer):
         fields = ['id', 'blood_name', 'quantity']
 
 # Fin - Unión con código implementado en el sprint 0
+
+# Inicio - API para manejo de usuarios
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'password', 'email')
+        extra_kwargs = {'password': {'write_only': True}}
+        validators = [
+            UniqueTogetherValidator(
+                queryset=User.objects.all(),
+                fields=['username', 'email']
+            )
+        ]
+
+    def create(self, validated_data):
+        username =  validated_data.get('username')
+        password = validated_data.get('password')
+        email =  validated_data.get('email')
+        user = User.objects.create_user(username, email, password)
+        user.set_password(password)
+        user.save()
+        return user
+
+# Fin - API para manejo de usuarios
