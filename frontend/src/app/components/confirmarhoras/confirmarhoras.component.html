@@ -1,5 +1,5 @@
 
-<mat-card>
+
   <div class="row" *ngIf="_userService.token">
     <div *ngIf="!gotData">
       {{getAppointments()}}
@@ -10,8 +10,8 @@
       <mat-list *ngFor="let appointment of appointments" >
         <mat-list-item>
         <span>Nombre: {{appointment.name}} Rut: {{appointment.rut}} </span>
-        <button (click)="acceptAppointment(appointment)">Aceptar</button>
-        <button (click)="rejectAppointment(appointment)">Rechazar</button>
+        <button mat-button (click)="acceptAppointment(appointment)">Aceptar</button>
+        <button mat-button (click)="rejectAppointment(appointment)">Rechazar</button>
       </mat-list-item>
         <mat-divider></mat-divider>
       </mat-list>
@@ -19,13 +19,13 @@
   
 
 
-    <div class="col-sm-12">Ingresaste como: {{ _userService.username }}.<br />
+    <div class="col-sm-12">
       Token Expires: {{ _userService.token_expires }}<br />
       <button mat-button (click)="logout()">Cerrar sesión</button>
     </div>
 
   </div>
 
-</mat-card>
+
 
 

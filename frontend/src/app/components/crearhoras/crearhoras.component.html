@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card class="createhour-card">
 <div class="row" *ngIf="!userService.token">
   <mat-form-field class="col-sm-3">
     <mat-label>Usuario</mat-label>
@@ -17,11 +17,10 @@
     <span *ngFor="let error of userService.errors.non_field_errors">{{ error }}<br /></span>
   </div>
 </div>
-</mat-card>
-<mat-card>
+
 <div class="row" *ngIf="userService.token">
   <div class="col-sm-12">Estás logeado como {{ userService.username }}.<br />
-    <button mat-button (click)="logout()">Cerrar sesión</button>
+    
     <br>
     <mat-form-field appearance="fill">
       <mat-label>Fecha</mat-label>
@@ -58,5 +57,6 @@
   </div>
 </div>
 
-</mat-card>
+
 <app-confirmarhoras></app-confirmarhoras>
+</mat-card>
