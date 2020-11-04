@@ -24,8 +24,8 @@
     <ul>
       <li *ngFor="let appointment of appointments" >
         <span>Nombre: {{appointment.name}} Rut: {{appointment.rut}} </span>
-        <button (click)="acceptAppointment(appointment)" class="btn btn-primary">Aceptar</button>
-        <button (click)="rejectAppointment(appointment)" class="btn btn-primary">Rechazar</button>
+        <button mat-button (click)="acceptAppointment(appointment)">Aceptar</button>
+        <button mat-button (click)="rejectAppointment(appointment)">Rechazar</button>
       </li>
     </ul>
 
@@ -33,7 +33,7 @@
 
     <div class="col-sm-12">Ingresaste como: {{ _userService.username }}.<br />
       Token Expires: {{ _userService.token_expires }}<br />
-      <button (click)="logout()" class="btn btn-primary">Cerrar sesión</button>
+      <button mat-button (click)="logout()">Cerrar sesión</button>
     </div>
 
   </div>
