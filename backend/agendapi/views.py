@@ -3,8 +3,8 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
 from rest_framework import viewsets, permissions, generics, status
 from rest_framework.views import APIView
-from .serializers import AppointmentSerializer, HourSerializer, PlaceSerializer, CampanaSerializer , RegDonacionSerializer, PredictionSerializer, BloodSerializer, UserSerializer
-from .models import Appointment, Hour, Place, Campana, RegDonacion, Prediction, Blood
+from .serializers import AppointmentSerializer, CampaignHourSerializer, HourSerializer, PlaceSerializer, CampanaSerializer , RegDonacionSerializer, PredictionSerializer, BloodSerializer, UserSerializer
+from .models import Appointment, CampaignHour, Hour, Place, Campana, RegDonacion, Prediction, Blood
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated, BasePermission, SAFE_METHODS
@@ -34,14 +34,14 @@ class PutOnly(BasePermission):
 
 
 class AppointmentViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated|CreateOnly]
+    # permission_classes = [IsAuthenticated|CreateOnly]
     serializer_class = AppointmentSerializer
     queryset = Appointment.objects.all()
 
 # API's
 class AppointmentList(generics.ListAPIView):
     serializer_class = AppointmentSerializer
-    permissions_classes = [IsAuthenticated|ReadOnly]
+    # permissions_classes = [IsAuthenticated|ReadOnly]
     def get_queryset(self):
         queryset = Appointment.objects.filter(accepted=False, rejected=False)
         return queryset
@@ -122,7 +122,7 @@ class CampanaViewSet(viewsets.ModelViewSet):
 class RegDonacionViewSet(viewsets.ModelViewSet):
     queryset = RegDonacion.objects.all()
     serializer_class = RegDonacionSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
 class PredictionViewSet(viewsets.ModelViewSet):
     queryset = Prediction.objects.all()
@@ -274,5 +274,18 @@ class ListActiveCampaigns(generics.ListAPIView):
         queryset = Campana.objects.all()
         return queryset
 
-
 # Fin - API para obtención de campañas activas
+
+# Inicio - API para manejo de horas agendadas
+
+class ListCampaignHours(generics.ListAPIView):
+    serializer_class = CampaignHourSerializer
+    permission_classes = [IsAuthenticated|ReadOnly]
+    def get_queryset(self):
+        queryset = CampaignHour.objects.filter(available=True)
+        campaign_id = self.request.query_params.get('campaign_id', None)
+        if campaign_id is not None:
+            queryset = queryset.filter(campaign_id = campaign_id)
+        return queryset
+
+# Fin - API para manejo de horas agendadas

@@ -135,3 +135,26 @@ class Blood(models.Model):
         return ("Componente: %s" %(self.blood_name))
 
 # Fin - Unión con código implementado en el sprint 0
+
+# Inicio - Horas agendadas que se verán en la app móvil
+
+class CampaignHour(models.Model):
+    campaign_id = models.ForeignKey(Campana, on_delete=models.CASCADE)
+    day = models.DateField()
+    hour = models.TimeField()
+    available = models.BooleanField(default=True)
+    appointment_id = models.OneToOneField(Appointment, on_delete=models.PROTECT, blank=True, null=True)
+
+    def __str__(self):
+        if self.appointment_id == None:
+            return ("Día: %s, Hora: %s, Disponible: %s" %(self.day, self.hour, self.available))
+        else:
+            if self.appointment_id.rejected:
+                status='Rechazada'
+            elif self.appointment_id.accepted:
+                status='Aceptada'
+            else:
+                status='Pendiente'
+            return ("Día: %s, Hora: %s, Disponible: %s, Nombre: %s, Email: %s, Estado: %s" %(self.day, self.hour, self.available, self.appointment_id.name, self.appointment_id.email, status))
+
+# Fin - Horas agendadas que se verán en la app móvil

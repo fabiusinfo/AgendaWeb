@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-from .models import Appointment, Hour, Place, Campana, RegDonacion, Prediction, Blood
+from .models import Appointment, CampaignHour, Hour, Place, Campana, RegDonacion, Prediction, Blood
 from django.db import transaction
 
 
@@ -16,6 +16,7 @@ class HourSerializer(serializers.ModelSerializer):
         instance.available = validated_data.get('available', instance.available)
         instance.save(update_fields=["available"])
         return instance
+
 
 class AppointmentSerializer(serializers.ModelSerializer):
     day = serializers.DateField(write_only=True)
@@ -32,7 +33,9 @@ class AppointmentSerializer(serializers.ModelSerializer):
             day_hour_instance.appointment_id = appointment
             day_hour_instance.available = False
             day_hour_instance.save()
-            return 'Saved Appointment'
+            return validated_data
+
+
 
 
 # Inicio - Unión con código implementado en el sprint 0
@@ -93,3 +96,38 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 # Fin - API para manejo de usuarios
+
+# Inicio - API para manejo de horas agendadas
+
+class CampaignHourSerializer(serializers.ModelSerializer):
+    appointment_name = serializers.CharField(source='appointment_id.name', read_only=True)
+    appointment_email = serializers.CharField(source='appointment_id.email', read_only=True)
+    appointment_rejected = serializers.BooleanField(source='appointment_id.rejected', read_only=True)
+    
+    class Meta:
+        model=CampaignHour
+        fields = ['id', 'campaign_id', 'day', 'hour', 'available', 'appointment_id', 'appointment_name', 'appointment_email', 'appointment_rejected']
+    def update(self, instance, validated_data):
+        instance.available = validated_data.get('available', instance.available)
+        instance.save(update_fields=["available"])
+        return instance
+
+# class AppointmentSerializer(serializers.ModelSerializer):
+#     day = serializers.DateField(write_only=True)
+#     hour = serializers.TimeField(write_only=True)
+#     class Meta:
+#         model=Appointment
+#         fields = ['id', 'name', 'rut', 'phone', 'email', 'day', 'hour','accepted','rejected']
+#     def create(self, validated_data):
+#         with transaction.atomic():
+#             appointment_day = validated_data.pop('day')
+#             appointment_hour = validated_data.pop('hour')
+#             appointment = Appointment.objects.create(**validated_data)
+#             day_hour_instance = CampaignHour.objects.get(day=appointment_day, hour=appointment_hour, available=True)
+#             day_hour_instance.appointment_id = appointment
+#             day_hour_instance.available = False
+#             day_hour_instance.save()
+#             return appointment
+
+
+# Fin - API para manejo de horas agendadas
