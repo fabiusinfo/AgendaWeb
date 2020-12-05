@@ -1,9 +1,11 @@
 from django.contrib import admin
 from .models import Appointment, CampaignHour, Hour, Place, Campana, RegDonacion, Prediction, Blood
 
+
 class CampanaAdmin(admin.ModelAdmin):
 
-    list_display=("lugar", "dia_inicio", "dia_termino")
+    list_display = ("lugar", "dia_inicio", "dia_termino")
+
 
 # Modelos
 admin.site.register(Appointment)

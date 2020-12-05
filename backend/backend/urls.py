@@ -9,8 +9,8 @@ from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 
 router = routers.DefaultRouter()
 router.register(r'appointment', views.AppointmentViewSet)
-router.register(r'campanas', views.CampanaViewSet)   
-router.register(r'regdonacion',views.RegDonacionViewSet)
+router.register(r'campanas', views.CampanaViewSet)
+router.register(r'regdonacion', views.RegDonacionViewSet)
 router.register(r'places', views.PlaceViewSet)
 router.register(r'blood', views.BloodViewSet)
 router.register(r'hr', views.HourViewSet)
@@ -30,8 +30,10 @@ urlpatterns = [
     path('user/', views.UserCreate.as_view(), name='users'),
 
     # API's usadas en la app móvil
-    path('api/active_campaigns', views.ListActiveCampaigns.as_view(), name='list_active_campaigns'),
-    path('api/campaign_hours/', views.ListCampaignHours.as_view(), name='list_campaign_hours'),
+    path('api/active_campaigns', views.ListActiveCampaigns.as_view(),
+         name='list_active_campaigns'),
+    path('api/campaign_hours/', views.ListCampaignHours.as_view(),
+         name='list_campaign_hours'),
 
     # Autorización
     path(r'api-token-auth/', obtain_jwt_token),
