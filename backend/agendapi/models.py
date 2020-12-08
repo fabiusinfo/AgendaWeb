@@ -56,39 +56,6 @@ alphanumeric = RegexValidator(
     r'^[0-9a-zA-Z]*$', 'Solo se permite el uso de letras.')
 
 
-class Appointment(models.Model):
-    name = models.CharField(max_length=60, validators=[
-                            validate_name_characters])
-    rut = models.CharField(max_length=60, blank=False,
-                           null=False, validators=[validate_rut])
-    phone = models.CharField(max_length=9, validators=[])
-    email = models.CharField(max_length=60, validators=[validate_email])
-    rejected = models.BooleanField(default=False)
-    accepted = models.BooleanField(default=False)
-
-    def __str__(self):
-        return ("Nombre: %s, RUT: %s" % (self.name, self.rut))
-
-
-class Hour(models.Model):
-    day = models.DateField()
-    hour = models.TimeField()
-    available = models.BooleanField(default=True)
-    appointment_id = models.OneToOneField(
-        Appointment, on_delete=models.PROTECT, blank=True, null=True)
-
-    def __str__(self):
-        if self.appointment_id == None:
-            return ("Día: %s, Hora: %s, Disponible: %s" % (self.day, self.hour, self.available))
-        else:
-            if self.appointment_id.rejected:
-                status = 'Rechazada'
-            elif self.appointment_id.accepted:
-                status = 'Aceptada'
-            else:
-                status = 'Pendiente'
-            return ("Día: %s, Hora: %s, Disponible: %s, Nombre: %s, Email: %s, Estado: %s" % (self.day, self.hour, self.available, self.appointment_id.name, self.appointment_id.email, status))
-
 # Inicio - Unión con código implementado en el sprint 0
 
 
@@ -112,7 +79,7 @@ class Campana(models.Model):
     imagen = models.ImageField(blank=True, null=True, upload_to='campanas')
 
     def __str__(self):
-        return ("Fecha: %s , Lugar: %s" % (self.dia_inicio, self.lugar))
+        return ("ID: %i, Fecha: %s , Lugar: %s" % (self.id, self.dia_inicio, self.lugar))
 
 
 class RegDonacion(models.Model):
@@ -145,27 +112,35 @@ class Blood(models.Model):
 
 # Fin - Unión con código implementado en el sprint 0
 
-# Inicio - Horas agendadas que se verán en la app móvil
+# Inicio - Integración del modelo de horas
 
 
-class CampaignHour(models.Model):
+class Hour(models.Model):
     campaign_id = models.ForeignKey(Campana, on_delete=models.CASCADE)
     day = models.DateField()
     hour = models.TimeField()
     available = models.BooleanField(default=True)
-    appointment_id = models.OneToOneField(
-        Appointment, on_delete=models.PROTECT, blank=True, null=True)
 
     def __str__(self):
-        if self.appointment_id == None:
-            return ("Día: %s, Hora: %s, Disponible: %s" % (self.day, self.hour, self.available))
-        else:
-            if self.appointment_id.rejected:
-                status = 'Rechazada'
-            elif self.appointment_id.accepted:
-                status = 'Aceptada'
-            else:
-                status = 'Pendiente'
-            return ("Día: %s, Hora: %s, Disponible: %s, Nombre: %s, Email: %s, Estado: %s" % (self.day, self.hour, self.available, self.appointment_id.name, self.appointment_id.email, status))
+        return ("Campaña: %s, Día: %s, Hora: %s, Disponible: %s" % (self.campaign_id.lugar.name, self.day, self.hour, self.available))
 
-# Fin - Horas agendadas que se verán en la app móvil
+
+class Appointment(models.Model):
+    # TODO: Agregar campo para guardar hora de creación
+
+    name = models.CharField(max_length=60, validators=[
+                            validate_name_characters])
+    rut = models.CharField(max_length=60, blank=False,
+                           null=False, validators=[validate_rut])
+    phone = models.CharField(max_length=9, validators=[])
+    email = models.CharField(max_length=60, validators=[validate_email])
+    rejected = models.BooleanField(default=False)
+    accepted = models.BooleanField(default=False)
+    hour_id = models.ForeignKey(
+        Hour, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return ("Nombre: %s, RUT: %s" % (self.name, self.rut))
+
+
+# Fin - Integración del modelo de horas

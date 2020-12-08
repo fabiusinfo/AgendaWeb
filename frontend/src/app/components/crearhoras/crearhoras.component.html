@@ -1,62 +1,100 @@
 <mat-card class="createhour-card">
-<div class="row" *ngIf="!userService.token">
-  <mat-form-field class="col-sm-3">
-    <mat-label>Usuario</mat-label>
-    <input matInput type="text" name="login-username" [(ngModel)]="user.username">
-  </mat-form-field>
-  <br>
-  <mat-form-field>
-    <mat-label>Password</mat-label>
-    <input matInput type="password" name="login-password" [(ngModel)]="user.password">
-  </mat-form-field>
-  <br>
-<div class="col-sm-4">
-  <button mat-button (click)="login()">Ingresar</button>
-</div>
-  <div class="col-sm-12">
-    <span *ngFor="let error of userService.errors.non_field_errors">{{ error }}<br /></span>
+  <div class="row" *ngIf="!userService.token">
+    <mat-form-field class="col-sm-3">
+      <mat-label>Usuario</mat-label>
+      <input
+        matInput
+        type="text"
+        name="login-username"
+        [(ngModel)]="user.username"
+      />
+    </mat-form-field>
+    <br />
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        type="password"
+        name="login-password"
+        [(ngModel)]="user.password"
+      />
+    </mat-form-field>
+    <br />
+    <div class="col-sm-4">
+      <button mat-button (click)="login()">Ingresar</button>
+    </div>
+    <div class="col-sm-12">
+      <span *ngFor="let error of userService.errors.non_field_errors"
+        >{{ error }}<br
+      /></span>
+    </div>
   </div>
-</div>
-
-<div class="row" *ngIf="userService.token">
-  <div class="col-sm-12">Estás logeado como {{ userService.username }}.<br />
-    
-    <br>
-    <mat-form-field appearance="fill">
-      <mat-label>Fecha</mat-label>
-      <input matInput [matDatepicker]="datepicker" [(ngModel)]="dia">
-      <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
-      <mat-datepicker #datepicker></mat-datepicker>
-
-    </mat-form-field>
-    <br>
-
-
-    <mat-form-field class="init-hour-form-field">
-      <mat-label>Hora inicio</mat-label>
-      <input matInput type="text" [format]="24" [ngxTimepicker]="init_timepicker"[(ngModel)]="horaInicio">
-      <ngx-material-timepicker #init_timepicker [theme]="redTheme"></ngx-material-timepicker>
-    </mat-form-field>
-    <br>
-
-    <mat-form-field class="end-hour-form-field">
-      <mat-label>Hora término</mat-label>
-      <input matInput type="text" [format]="24" [ngxTimepicker]="end_timepicker"[(ngModel)]="horaFinal">
-      <ngx-material-timepicker #end_timepicker [theme]="redTheme"></ngx-material-timepicker>
-    </mat-form-field>
-    <br>
-
-    <mat-card-actions>
-      <button mat-button (click)="createHours()">Crear</button>
-
-    </mat-card-actions>
-
-    
-      
-    
+  <div class="container" style="bottom-margin: 30px" *ngIf="!userService.token">
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="fill">
+          <mat-label>Campaña</mat-label>
+          <mat-select [(ngModel)]="campaign">
+            <mat-option *ngFor="let campaign of campaigns" [value]="campaign">
+              {{ campaign.place_name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha</mat-label>
+          <input matInput [matDatepicker]="datepicker" [(ngModel)]="dia" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="datepicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #datepicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <mat-form-field class="init-hour-form-field">
+          <mat-label>Hora inicio</mat-label>
+          <input
+            matInput
+            type="text"
+            [format]="24"
+            [ngxTimepicker]="init_timepicker"
+            [(ngModel)]="horaInicio"
+          />
+          <ngx-material-timepicker
+            #init_timepicker
+            [theme]="redTheme"
+          ></ngx-material-timepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-6">
+        <mat-form-field class="end-hour-form-field">
+          <mat-label>Hora término</mat-label>
+          <input
+            matInput
+            type="text"
+            [format]="24"
+            [ngxTimepicker]="end_timepicker"
+            [(ngModel)]="horaFinal"
+          />
+          <ngx-material-timepicker
+            #end_timepicker
+            [theme]="redTheme"
+          ></ngx-material-timepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card-actions>
+          <button mat-raised-button (click)="createHours()">Crear</button>
+        </mat-card-actions>
+      </div>
+    </div>
   </div>
-</div>
 
-
-<app-confirmarhoras></app-confirmarhoras>
+  <app-confirmarhoras></app-confirmarhoras>
 </mat-card>

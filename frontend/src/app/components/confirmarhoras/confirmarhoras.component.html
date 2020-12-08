@@ -1,31 +1,20 @@
-
-
-  <div class="row" *ngIf="_userService.token">
-    <div *ngIf="!gotData">
-      {{getAppointments()}}
-      {{datarefresh()}}
-    </div>
-
-    <ul>
-      <mat-list *ngFor="let appointment of appointments" >
-        <mat-list-item>
-        <span>Nombre: {{appointment.name}} Rut: {{appointment.rut}} </span>
-        <button mat-button (click)="acceptAppointment(appointment)">Aceptar</button>
-        <button mat-button (click)="rejectAppointment(appointment)">Rechazar</button>
+<div class="row" *ngIf="!userService.token">
+  <ul>
+    <mat-list *ngFor="let appointment of appointments">
+      <mat-list-item>
+        <span>Nombre: {{ appointment.name }} Rut: {{ appointment.rut }} </span>
+        <button mat-button (click)="modifyAppointment(appointment, true)">
+          Aceptar
+        </button>
+        <button mat-button (click)="modifyAppointment(appointment, false)">
+          Rechazar
+        </button>
       </mat-list-item>
-        <mat-divider></mat-divider>
-      </mat-list>
-    </ul>
-  
+      <mat-divider></mat-divider>
+    </mat-list>
+  </ul>
 
-
-    <div class="col-sm-12">
-      Token Expires: {{ _userService.token_expires }}<br />
-      <button mat-button (click)="logout()">Cerrar sesión</button>
-    </div>
-
+  <div class="col-sm-12">
+    <button mat-button (click)="logout()">Cerrar sesión</button>
   </div>
-
-
-
-
+</div>

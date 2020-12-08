@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Appointment, CampaignHour, Hour, Place, Campana, RegDonacion, Prediction, Blood
+from .models import Appointment, Hour, Place, Campana, RegDonacion, Prediction, Blood
 
 
 class CampanaAdmin(admin.ModelAdmin):
-
+    readonly_fields = ('id', )
     list_display = ("lugar", "dia_inicio", "dia_termino")
 
 
@@ -18,6 +18,5 @@ admin.site.register(Campana, CampanaAdmin)
 admin.site.register(RegDonacion)
 admin.site.register(Prediction)
 admin.site.register(Blood)
-admin.site.register(CampaignHour)
 
 # Fin - Unión con código implementado en el sprint 0

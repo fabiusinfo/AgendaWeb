@@ -19,21 +19,18 @@ urlpatterns = [
     # API's usadas en la aplicación web
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('hour', views.HourList.as_view()),
+    path('hour/', views.HourList.as_view()),
     path('new_hour', views.HourCreate.as_view()),
     path('confirm_appointments', views.AppointmentList.as_view()),
     path('appointments', views.AppointmentList.as_view()),
     path('hour1', views.HourbyAppointmentID.as_view()),
     path('eval_model', views.update_predictions, name="update_predictions"),
-    path('predictions', views.predictions, name='predictions'),
     path("r'^(?P<id>\d+)/$", views.HourUpdate.as_view()),
     path('user/', views.UserCreate.as_view(), name='users'),
 
     # API's usadas en la app móvil
     path('api/active_campaigns', views.ListActiveCampaigns.as_view(),
          name='list_active_campaigns'),
-    path('api/campaign_hours/', views.ListCampaignHours.as_view(),
-         name='list_campaign_hours'),
 
     # Autorización
     path(r'api-token-auth/', obtain_jwt_token),

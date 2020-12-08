@@ -1,22 +1,25 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
+from django.db import transaction
+
 from rest_framework import viewsets, permissions, generics, status
 from rest_framework.views import APIView
-from .serializers import AppointmentSerializer, CampaignHourSerializer, HourSerializer, PlaceSerializer, CampanaSerializer, RegDonacionSerializer, PredictionSerializer, BloodSerializer, UserSerializer
-from .models import Appointment, CampaignHour, Hour, Place, Campana, RegDonacion, Prediction, Blood
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated, BasePermission, SAFE_METHODS
+
+
 import keras
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import StandardScaler
 from joblib import load
-import statsmodels.api
-from os import listdir
-from os.path import isfile, join
+
 from datetime import datetime, date
+import json
+
+from .serializers import AppointmentSerializer, HourSerializer, PlaceSerializer, CampanaSerializer, RegDonacionSerializer, PredictionSerializer, BloodSerializer, UserSerializer
+from .models import Appointment, Hour, Place, Campana, RegDonacion, Blood
 
 # Demanda esperada por el centro de sangre
 DEMANDA_MENSUAL = np.array([30, 45, 58, 60, 110, 120, 30, 28, 90, 20, 31, 44])
@@ -73,9 +76,15 @@ class HourList(generics.ListAPIView):
     permission_classes = [IsAuthenticated | ReadOnly]
 
     def get_queryset(self):
-        queryset = Hour.objects.filter(available=True)
+        campaign = self.request.query_params.get('campaign', None)
         day = self.request.query_params.get('day', None)
+        queryset = Hour.objects.filter(
+            available=True).order_by('hour')
+        if campaign is not None:
+            # Filtro por campañas de las horas
+            queryset = queryset.filter(campaign_id=campaign)
         if day is not None:
+            # Filtro por día de las horas
             queryset = queryset.filter(day=day, available=True)
         return queryset
 
@@ -89,7 +98,7 @@ class HourUpdate(generics.UpdateAPIView):
 
 class HourCreate(generics.CreateAPIView):
     serializer_class = HourSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
 
 class HourbyAppointmentID(generics.ListAPIView):
@@ -142,77 +151,6 @@ class RegDonacionViewSet(viewsets.ModelViewSet):
     queryset = RegDonacion.objects.all()
     serializer_class = RegDonacionSerializer
     # permission_classes = [IsAuthenticated]
-
-
-class PredictionViewSet(viewsets.ModelViewSet):
-    queryset = Prediction.objects.all()
-    serializer_class = PredictionSerializer
-    #permission_classes = [IsAuthenticated]
-
-    def ohe_to_class(y):
-        test = list()
-        for i in range(len(y)):
-            test.append(np.argmax(y[i]))
-        return test
-
-    def get(self, request, *args, **kwargs):
-
-        df = pd.read_csv("../Data/data/blood-test.csv")
-        df = df.drop("Unnamed: 0", axis=1)
-
-        model = keras.models.load_model('../Data/entrada.h5')
-        val = df.values
-
-        sc = load('../Data/std_scaler.bin')
-
-        val_std = sc.transform(val)
-
-        new_pred = model.predict(val_std).round()
-
-        don = self.ohe_to_class(new_pred)
-
-        new_don = []
-        for i in range(0, len(don)):
-            if don[i] == 1:
-                new_don.append(i+2)
-
-        model = statsmodels.tsa.statespace.sarimax.SARIMAXResults.load(
-            "../Data/demanda.pkl")
-        pred = model.predict(start=120, end=122)
-        return JsonResponse({'n_don': new_don, 'pred': int(pred[0])})
-
-
-def predictions(request):
-
-    def ohe_to_class(y):
-        test = list()
-        for i in range(len(y)):
-            test.append(np.argmax(y[i]))
-        return test
-
-    df = pd.read_csv("../Data/data/blood-test.csv")
-    df = df.drop("Unnamed: 0", axis=1)
-
-    model = keras.models.load_model('../Data/entrada.h5')
-    val = df.values
-
-    sc = load('../Data/std_scaler.bin')
-
-    val_std = sc.transform(val)
-
-    new_pred = model.predict(val_std).round()
-
-    don = ohe_to_class(new_pred)
-
-    new_don = []
-    for i in range(0, len(don)):
-        if don[i] == 1:
-            new_don.append(i+2)
-
-    model = statsmodels.tsa.statespace.sarimax.SARIMAXResults.load(
-        "../Data/demanda.pkl")
-    pred = model.predict(start=120, end=122)
-    return JsonResponse({'n_don': len(new_don), 'pred': DEMANDA_MENSUAL[datetime.now().month-1]})
 
 
 def update_predictions(request):
@@ -271,8 +209,6 @@ def update_predictions(request):
                  "Volumen donado cc", "Meses primera donacion"]]
 
         # Calcula la entrada evaluando con el DataFrame conseguido
-        print(df.mean())
-        print(df.describe())
 
         model = keras.models.load_model('../Data/entrada.h5')
         val = df.values
@@ -294,51 +230,7 @@ def update_predictions(request):
         place.save()
     total_donations = sum(donations)
 
-    return JsonResponse({'n_don': total_donations, 'donations': donations, 'pred': 40})
-
-# def update_predictions(request):
-    def ohe_to_class(y):
-        test = list()
-        for i in range(len(y)):
-            test.append(np.argmax(y[i]))
-        return test
-
-    listdir("../Data/data/id")
-    files = [f.split(".")[0] for f in listdir("../Data/data/id")]
-
-    donations = list()
-    total_donations = 0
-    for _id in files:
-        if _id != "usm":
-            continue
-        df = pd.read_csv("../Data/data/id/"+_id+".csv")
-        print(_id)
-        print(df.mean())
-        print(df.describe())
-
-        model = keras.models.load_model('../Data/entrada.h5')
-        val = df.values
-
-        sc = load('../Data/std_scaler.bin')
-
-        val_std = sc.transform(val)
-
-        new_pred = model.predict(val_std).round()
-
-        don = ohe_to_class(new_pred)
-
-        new_don = []
-        for i in range(0, len(don)):
-            if don[i] == 1:
-                new_don.append(i+2)
-        donations.append(len(new_don))
-        p = Place.objects.get(codigo=_id)
-        p.next_month_prediction = len(new_don)
-        p.save()
-    total_donations = sum(donations)
-
-    return JsonResponse({'n_don': total_donations, 'donations': donations, 'pred': 3595})
-
+    return JsonResponse({'n_don': total_donations, 'donations': donations, 'pred': DEMANDA_MENSUAL[datetime.now().month-1]})
 
 # Fin - Unión con código implementado en el sprint 0
 
@@ -384,19 +276,3 @@ class ListActiveCampaigns(generics.ListAPIView):
         return queryset
 
 # Fin - API para obtención de campañas activas
-
-# Inicio - API para manejo de horas agendadas
-
-
-class ListCampaignHours(generics.ListAPIView):
-    serializer_class = CampaignHourSerializer
-    permission_classes = [IsAuthenticated | ReadOnly]
-
-    def get_queryset(self):
-        queryset = CampaignHour.objects.filter(available=True)
-        campaign_id = self.request.query_params.get('campaign_id', None)
-        if campaign_id is not None:
-            queryset = queryset.filter(campaign_id=campaign_id)
-        return queryset
-
-# Fin - API para manejo de horas agendadas
