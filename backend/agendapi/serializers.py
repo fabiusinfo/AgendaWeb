@@ -3,6 +3,10 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from .models import Appointment, Hour, Place, Campana, RegDonacion, Prediction, Blood
 from django.db import transaction
+import firebase_admin
+from firebase_admin import firestore
+
+firebase_admin.initialize_app()
 
 
 class HourSerializer(serializers.ModelSerializer):
@@ -64,6 +68,24 @@ class RegDonacionSerializer(serializers.ModelSerializer):
         model = RegDonacion
         fields = ['id', 'fecha', 'lugar', 'rut',
                   'nombres', 'apellido1', 'apellido2', 'sangre']
+
+    @transaction.atomic
+    def create(self, validated_data):
+        db = firestore.client()
+        docs = db.collection(u'users').where(
+            u'rut', u'==', validated_data['rut']).stream()
+        user_doc = next(docs, None)
+        if user_doc:
+            # Añadir un punto en la tabla de Firebase si se encuentra registrado el usuario
+            user_dict = user_doc.to_dict()
+            uid = user_dict['uid']
+            ranking_doc_ref = db.collection(u'ranking').document(uid)
+            ranking_doc = ranking_doc_ref.get()
+            if ranking_doc.exists:
+                points = ranking_doc.to_dict()['points']
+                ranking_doc_ref.update({'points': points+1})
+
+        return super().create(validated_data)
 
 
 class PredictionSerializer(serializers.ModelSerializer):

@@ -9,11 +9,15 @@ from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated, BasePermission, SAFE_METHODS
 
+from firebase_admin import initialize_app
+from firebase_admin import firestore
+
 
 import keras
 import pandas as pd
 import numpy as np
 from joblib import load
+import os
 
 from datetime import datetime, date
 import json
@@ -21,12 +25,12 @@ import json
 from .serializers import AppointmentSerializer, HourSerializer, PlaceSerializer, CampanaSerializer, RegDonacionSerializer, PredictionSerializer, BloodSerializer, UserSerializer
 from .models import Appointment, Hour, Place, Campana, RegDonacion, Blood
 
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+
 # Demanda esperada por el centro de sangre
-DEMANDA_MENSUAL = np.array([30, 45, 58, 60, 110, 120, 30, 28, 90, 20, 31, 44])
+DEMANDA_MENSUAL = np.array([30, 45, 58, 60, 110, 120, 30, 28, 90, 20, 31, 440])
 
 # Custom permissions classes
-
-datetime.now().month
 
 
 class ReadOnly(BasePermission):
@@ -192,6 +196,9 @@ def update_predictions(request):
             'rut')['rut'].transform('count')
         # Transformación necesaria para filtrar datos
         df = df[df["fecha"].dt.date < date(2019, 8, 1)]
+        if df.empty:
+            print("DataFrame vacio encontrado")
+            continue
         df["Primera donacion"] = df.groupby("rut")["fecha"].transform("min")
         df["Ultima donacion"] = df.groupby("rut")["fecha"].transform("max")
 
@@ -230,7 +237,7 @@ def update_predictions(request):
         place.save()
     total_donations = sum(donations)
 
-    return JsonResponse({'n_don': total_donations, 'donations': donations, 'pred': DEMANDA_MENSUAL[datetime.now().month-1]})
+    return JsonResponse({'n_don': total_donations, 'donations': donations, 'pred': str(DEMANDA_MENSUAL[datetime.now().month-1])})
 
 # Fin - Unión con código implementado en el sprint 0
 
@@ -276,3 +283,17 @@ class ListActiveCampaigns(generics.ListAPIView):
         return queryset
 
 # Fin - API para obtención de campañas activas
+
+# Vistas para obtener datos desde Firebase
+
+
+def get_ranking(request):
+    db = firestore.client()
+    ranking_ref = db.collection(u'ranking')
+    ranking_query = ranking_ref.order_by(
+        u'points', direction=firestore.Query.DESCENDING)
+    ranking_docs = ranking_query.stream()
+    response = []
+    for ranking_doc in ranking_docs:
+        response.append(ranking_doc.to_dict())
+    return JsonResponse(response, safe=False)

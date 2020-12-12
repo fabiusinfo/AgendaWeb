@@ -48,6 +48,7 @@ import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { AgHoraService } from './services/aghora.service';
 import { UserService } from './services/user.service';
 import { CampanaService } from './services/campana.service';
+import { RankingComponent } from './components/ranking/ranking.component';
 
 
 
@@ -71,6 +72,7 @@ import { CampanaService } from './services/campana.service';
     CollectionComponent,
     MainNavComponent,
     ConfirmarhorasComponent,
+    RankingComponent,
   ],
   imports: [
     FormsModule,

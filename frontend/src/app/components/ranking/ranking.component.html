@@ -1,0 +1,28 @@
+<table mat-table [dataSource]="rankingPointsTable" class="mat-elevation-z8">
+  <div>
+    <ng-container matColumnDef="index">
+      <mat-header-cell *matHeaderCellDef> Lugar </mat-header-cell>
+      <mat-cell *matCellDef="let element; let i = index">
+        {{ i + 1 }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.name }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="points">
+      <mat-header-cell *matHeaderCellDef> Puntaje </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.points }} </mat-cell>
+    </ng-container>
+  </div>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row
+    *matRowDef="let row; columns: displayedColumns; let i = index"
+  ></mat-row>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons></mat-paginator>

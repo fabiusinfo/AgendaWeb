@@ -25,6 +25,9 @@ urlpatterns = [
     path('appointments', views.AppointmentList.as_view()),
     path('hour1', views.HourbyAppointmentID.as_view()),
     path('eval_model', views.update_predictions, name="update_predictions"),
+
+    # API's para obtener datos de Firebase
+    path('api/ranking/', views.get_ranking),
     path("r'^(?P<id>\d+)/$", views.HourUpdate.as_view()),
     path('user/', views.UserCreate.as_view(), name='users'),
 

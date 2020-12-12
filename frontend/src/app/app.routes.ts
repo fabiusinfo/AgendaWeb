@@ -8,6 +8,7 @@ import { CampaignsComponent } from './components/campaigns/campaigns.component';
 import { RegdonacionComponent } from './components/regdonacion/regdonacion.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { NewcampaignComponent } from './components/newcampaign/newcampaign.component';
+import { RankingComponent } from './components/ranking/ranking.component';
 
 const ROUTES: Routes = [
     {path: 'agendar', component: AghoraComponent},
@@ -19,6 +20,7 @@ const ROUTES: Routes = [
     {path: 'newcampaign', component: NewcampaignComponent},
     {path: 'recoleccion', component: CollectionComponent},
     {path: 'login', component: LoginComponent},
+    {path: 'ranking', component: RankingComponent},
     {path: '', pathMatch: 'full', redirectTo: 'agendar'},
 
 ];
